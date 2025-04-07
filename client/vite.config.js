@@ -8,6 +8,11 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     hmr: true,
-    allowedHosts: ['c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev', 'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:3000/', 'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev/80']
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
   }
 })
