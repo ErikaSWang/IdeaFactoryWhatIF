@@ -6,7 +6,7 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/save', {
+      const response = await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
@@ -20,7 +20,7 @@ function App() {
   };
 
   const handleShow = async () => {
-    const response = await fetch('http://localhost:5000/api/data');
+    const response = await fetch('/api/data');
     const result = await response.json();
     setData(result);
   };
