@@ -1,0 +1,397 @@
+MAIN 
+1. Open a node.js repl
+2. Add 2 folders:
+1. > client
+2. > server
+
+FRONTEND
+3. cd client
+4. npm create vite@latest .  (NOTICE THE DOT)
+5. npm install
+
+(NOTE: There are 2/3 package.jsons!
+Client – has one (frontend)
+Server – has one (backend)
+Node – has one (full stack)
+
+6. Add this line to the client package.json:
+"scripts": { 
+"start": "concurrently \"npm run dev\" \"node ../server/server.js\""
+ } 
+7. npm install concurrently
+
+BACKEND
+8. cd ../server
+9. npm init -y
+10. npm install express pg cors body-parser
+
+11. Create database
+12. Create server.js:
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { Pool } = require('pg');
+
+const app = express();
+const pool = new Pool({
+ user: process.env['PGUSER'],
+ host: process.env['PGHOST'],
+ database: process.env['PGDATABASE'],
+  password: process.env['PGPASSWORD'],
+  port: 5432,
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  }
+});
+
+// Create table if not exists
+pool.query(`
+  CREATE TABLE IF NOT EXISTS data (
+    id SERIAL PRIMARY KEY,
+    content TEXT NOT NULL
+  )
+`).catch(err => console.error('Error creating table:', err));
+
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://172.31.128.51:5173',
+    'https://full-stack-2-perplexity-eswang.replit.app/'
+  ],
+  credentials: true
+}));
+
+app.use(bodyParser.json());
+
+// Serve static files from client/dist
+app.use(express.static('../client/dist'));
+
+// Save data to database
+app.post('/api/save', async (req, res) => {
+  console.log('Save endpoint hit with body:', req.body);
+  if (!req.body || !req.body.content) {
+    console.error('Invalid request body');
+    return res.status(400).json({ error: 'Content is required' });
+  }
+
+  const { content } = req.body;
+  try {
+    // Test database connection first
+    const testResult = await pool.query('SELECT NOW()');
+    console.log('Database connection test succeeded:', testResult.rows[0]);
+
+    const insertResult = await pool.query('INSERT INTO data (content) VALUES ($1) RETURNING *', [content]);
+    console.log('Insert succeeded:', insertResult.rows[0]);
+
+    res.status(200).json({ message: 'Data saved successfully', data: insertResult.rows[0] });
+  } catch (err) {
+    console.error('Database error details:', {
+      code: err.code,
+      message: err.message,
+      detail: err.detail,
+      schema: err.schema,
+      table: err.table
+    });
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Retrieve data from database
+app.get('/api/data', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM data');
+    res.status(200).json(result.rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.listen(5000, '0.0.0.0', () => {
+  console.log('=================================');
+  console.log('Server running on port 5000');
+  console.log('Environment variables:');
+  console.log('PGUSER:', process.env.PGUSER);
+  console.log('PGHOST:', process.env.PGHOST);
+  console.log('PGDATABASE:', process.env.PGDATABASE);
+  console.log('=================================');
+});
+
+
+
+13. App.jsx (in client – replace existing)
+import React, { useState } from 'react';
+
+function App() {
+  const [input, setInput] = useState('');
+  const [data, setData] = useState([]);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: input }),
+      });
+      console.log('Response:', response.status);
+      setInput('');
+    } catch (error) {
+      console.error('Error submitting:', error);
+      alert('Error: ' + error.message);
+    }
+  };
+
+  const handleShow = async () => {
+    const response = await fetch('/api/data');
+    const result = await response.json();
+    setData(result);
+  };
+
+  return (
+    <div>
+      <h1>Simple Full-Stack App</h1>
+      <input 
+        type="text" 
+        value={input} 
+        onChange={(e) => setInput(e.target.value)} 
+        placeholder="Enter something" 
+      />
+      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleShow}>Show</button>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.content}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+
+14. .replit:
+Before:
+entrypoint = "index.js"
+modules = ["nodejs-22"]
+hidden = [".config", "package-lock.json"]
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
+
+[nix]
+channel = "stable-24_11"
+
+[deployment]
+run = ["node", "index.js"]
+deploymentTarget = "autoscale"
+ignorePorts = false
+
+After:
+entrypoint = "index.js"
+modules = ["nodejs-22", "postgresql-16"]
+hidden = [".config", "package-lock.json"]
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
+
+[nix]
+channel = "stable-24_11"
+
+[deployment]
+run = ["sh", "-c", "cd server && npm install && node server.js"]
+deploymentTarget = "autoscale"
+ignorePorts = false
+build = ["sh", "-c", "cd client && npm install && npm run build"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5173
+externalPort = 3000
+
+[workflows]
+runButton = "Full Stack"
+
+[[workflows.workflow]]
+name = "Full Stack"
+author = 15849153
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && node server.js"
+
+15. package.json (node) - SAME
+Before:
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.13.11"
+  }
+}
+
+After:
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.13.11"
+  }
+}
+
+16. package.json (client) - SAME
+Before:
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"npm run dev\" \"node ../server/server.js\"",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.2.0"
+  }
+}
+
+After:
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"npm run dev\" \"node ../server/server.js\"",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.2.0"
+  }
+}
+
+17. package.json (server) - SAME
+Before:
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.14.1"
+  }
+}
+
+After:
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.14.1"
+  }
+}
+
+18. vite.config.js (I didn't actually change it, and it still worked)
+Before:
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
+
+After:
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    hmr: true,
+    allowedHosts: ['df2df979-e6e5-45dd-818e-a79928fdca16-00-135gkkb69otnv.picard.replit.dev']
+  }
+})
+
+19. Press run to set up the table
+20. Deploy (to get the server/api to work) - autoscale
+21. BUILD COMMAND: cd client && npm install && npm run build (SAME)
+22. RUN COMMAND: cd server && npm install && node server.js (SAME)

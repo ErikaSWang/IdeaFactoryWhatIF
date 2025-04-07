@@ -1,5 +1,5 @@
 entrypoint = "index.js"
-modules = ["nodejs-22"]
+modules = ["nodejs-22", "postgresql-16"]
 hidden = [".config", "package-lock.json"]
 
 [gitHubImport]
@@ -9,6 +9,31 @@ requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 channel = "stable-24_11"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["sh", "-c", "cd server && npm install && node server.js"]
 deploymentTarget = "autoscale"
 ignorePorts = false
+build = ["sh", "-c", "cd client && npm install && npm run build"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5173
+externalPort = 3000
+
+[workflows]
+runButton = "Full Stack"
+
+[[workflows.workflow]]
+name = "Full Stack"
+author = 15849153
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd client && npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd server && node server.js"
