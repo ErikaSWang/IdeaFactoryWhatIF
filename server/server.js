@@ -25,7 +25,12 @@ pool.query(`
 `).catch(err => console.error('Error creating table:', err));
 
 app.use(cors({
-  origin: true,
+  origin: [
+    'http://localhost:5173',
+    'https://full-stack-copy-attempt-ESWang.replit.app',
+    'https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev',
+    'https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:3000/'
+  ],
   credentials: true
 }));
 
