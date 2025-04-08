@@ -24,18 +24,7 @@ pool.query(`
   )
 `).catch(err => console.error('Error creating table:', err));
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173/',
-    'http://172.31.128.12:5173/',
-    'https://full-stack-copy-attempt-ESWang.replit.app',
-    "https://*.replit.dev",
-    "https://*.replit.dev:3000",
-    "https://*.replit.app"
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "OPTIONS"]
-}));
+app.use(cors());
 
 app.use(bodyParser.json());
 
