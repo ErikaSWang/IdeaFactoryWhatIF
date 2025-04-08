@@ -8,9 +8,9 @@ function App() {
     try {
       const response = await fetch('/api/save', {
         method: 'POST',
+        mode: 'cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
-        mode: 'cors'
       });
       console.log('Response:', response.status);
       setInput('');

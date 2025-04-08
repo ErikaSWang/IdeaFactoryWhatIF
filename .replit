@@ -15,11 +15,11 @@ ignorePorts = false
 build = ["sh", "-c", "cd client && npm install && npm run build"]
 
 [[ports]]
-localPort = 5000  # Server port
-externalPort = 80 # Publicly accessible
+localPort = 5000
+externalPort = 80
 
 [[ports]]
-localPort = 5173  # Vite dev server
+localPort = 5173
 externalPort = 3000
 
 [workflows]
