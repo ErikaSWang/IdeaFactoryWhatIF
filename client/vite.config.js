@@ -12,9 +12,7 @@ export default defineConfig({
       'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev', 
       'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:3000/',
       'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:80/',
-      'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:5000',
-      'localhost:5000',
-      '0.0.0.0:5000'
+      'c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:5000'
     ]
   }
 })
