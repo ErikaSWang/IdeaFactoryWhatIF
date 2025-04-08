@@ -7,10 +7,8 @@ function App() {
   const handleSubmit = async () => {
     console.log('Frontend good');
     try {
-      const response = await fetch('/api/save', {
+      const response = await fetch('http://localhost:5000/api/save', {
         method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
       });
@@ -24,7 +22,7 @@ function App() {
 
   const handleShow = async () => {
     console.log('Requesting data')
-    const response = await fetch('/api/data');
+    const response = await fetch('http://localhost:5000/api/data');
     const result = await response.json();
     setData(result);
   };
