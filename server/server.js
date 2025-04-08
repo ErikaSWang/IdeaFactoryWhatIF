@@ -26,13 +26,15 @@ pool.query(`
 
 app.use(cors({
   origin: [
-    'http://localhost:5173',
+    'http://localhost:5173/',
     'http://172.31.128.12:5173/',
     'https://full-stack-copy-attempt-ESWang.replit.app',
     "https://*.replit.dev/",
-    "https://*.replit.dev:3000",
-    "https://*.replit.app/"
-  ]
+    "https://*.replit.dev:3000/",
+    "https://*.replit.app"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"]
 }));
 
 app.use(bodyParser.json());
@@ -40,14 +42,13 @@ app.use(bodyParser.json());
 // Serve static files from client/dist
 app.use(express.static('../client/dist'));
 
-// Fallback for SPA routing
-app.get('*', (req, res) => {
-  res.sendFile('index.html', { root: '../client/dist' });
+app.get('/', (req, res) => {
+  res.send('Server is running!');
 });
 
 // Save data to database
 app.post('/api/save', async (req, res) => {
-  console.log('Save endpoint hit with body:', req.body);
+  console.log('Anything?');
   if (!req.body || !req.body.content) {
     console.error('Invalid request body');
     return res.status(400).json({ error: 'Content is required' });
@@ -77,6 +78,7 @@ app.post('/api/save', async (req, res) => {
 
 // Retrieve data from database
 app.get('/api/data', async (req, res) => {
+  console.log('Requesting data - anything??');
   try {
     const result = await pool.query('SELECT * FROM data');
     res.status(200).json(result.rows);

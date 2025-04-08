@@ -5,10 +5,12 @@ function App() {
   const [data, setData] = useState([]);
 
   const handleSubmit = async () => {
+    console.log('Frontend good');
     try {
       const response = await fetch('/api/save', {
         method: 'POST',
         mode: 'cors',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
       });
@@ -16,10 +18,12 @@ function App() {
       setInput('');
     } catch (error) {
       console.error('Error submitting:', error);
+      alert('Error: ' + error.message);
     }
   };
 
   const handleShow = async () => {
+    console.log('Requesting data')
     const response = await fetch('/api/data');
     const result = await response.json();
     setData(result);
