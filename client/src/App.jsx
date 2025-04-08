@@ -16,7 +16,6 @@ function App() {
       setInput('');
     } catch (error) {
       console.error('Error submitting:', error);
-      alert('Error: ' + error.message);
     }
   };
 
