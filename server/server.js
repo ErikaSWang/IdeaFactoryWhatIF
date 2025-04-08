@@ -37,8 +37,12 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.send('Server is running!');
+// Serve static files from client/dist
+app.use(express.static('../client/dist'));
+
+// Fallback for SPA routing
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: '../client/dist' });
 });
 
 // Save data to database
