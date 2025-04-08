@@ -28,10 +28,10 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'https://full-stack-copy-attempt-ESWang.replit.app',
-    'https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev',
-    'https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev:3000/'
-  ],
-  credentials: true
+    "https://*.replit.dev",
+    "https://*.replit.dev:3000",
+    "https://*.replit.app"
+  ]
 }));
 
 app.use(bodyParser.json());

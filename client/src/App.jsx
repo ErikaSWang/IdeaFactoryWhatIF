@@ -10,12 +10,12 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
+        mode: 'cors'
       });
       console.log('Response:', response.status);
       setInput('');
     } catch (error) {
       console.error('Error submitting:', error);
-      alert('Error: ' + error.message);
     }
   };
 
