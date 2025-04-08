@@ -7,7 +7,7 @@ function App() {
   const handleSubmit = async () => {
     console.log('Frontend good');
     try {
-      const response = await fetch('http://localhost:5000/api/save', {
+      const response = await fetch(`${window.location.origin}/api/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
@@ -21,7 +21,7 @@ function App() {
 
   const handleShow = async () => {
     console.log('Requesting data')
-    const response = await fetch('http://localhost:5000/api/data');
+    const response = await fetch(`${window.location.origin}/api/data`);
     const result = await response.json();
     setData(result);
   };
