@@ -7,7 +7,7 @@ function App() {
   const handleSubmit = async () => {
     console.log('Frontend good');
     try {
-      const response = await fetch('/api/save', {
+      const response = await fetch('https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: input }),
@@ -22,7 +22,7 @@ function App() {
 
   const handleShow = async () => {
     console.log('Requesting data')
-    const response = await fetch('/api/data');
+    const response = await fetch('https://c3f9aabf-bf8f-4c21-967f-66a94fd01302-00-2kkpp817npzdg.picard.replit.dev/api/data');
     const result = await response.json();
     setData(result);
   };
