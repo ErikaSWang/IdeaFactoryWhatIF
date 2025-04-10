@@ -35,6 +35,20 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
+// List all tables
+app.get('/api/tables', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public'
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Save data to database
 app.post('/api/save', async (req, res) => {
   console.log('Anything?');
