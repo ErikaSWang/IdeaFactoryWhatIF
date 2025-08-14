@@ -87,6 +87,7 @@ CRITICAL: You must respond with valid JSON only. Do not include any text before 
 
 Response format:
 {
+  "compassionateResponse": "A compassionate response to the user's input about the conflict",
   "sentimentAnalysis": {
     "anger": 0.0,
     "fear": 0.0,
@@ -99,16 +100,15 @@ Response format:
     "completeness_of_identification_of_all_parties": 0.0,
     "neutrality": 0.0,
     "interest_in_one_side_over_another": 0.0,
-    "accuracy_of_facts_if_relevant": 0.0,
+    "accuracy_of_facts_if_relevant": 0.0
   },
   "facts": {
     "historical_background": [],
-    "current_issues_preventing_peace": [],
+    "current_issues_preventing_peace": []
   },
   "possibility_of_peace": [],
   "optimal_path_forward": [],
-  "difficult_not_impossible": [],
-
+  "difficult_not_impossible": []
 }`;
 
     const completion = await openai.chat.completions.create({
