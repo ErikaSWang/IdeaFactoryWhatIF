@@ -83,31 +83,31 @@ app.post('/api/analyze-conflict', async (req, res) => {
     3. What would the optimal path forward be, that has a possibility the two parties might follow? (Can go in phases if needed)
     4. Why it may be difficult, but not impossible.
 
-CRITICAL: You must respond with valid JSON only. Do not include any text before or after the JSON. All arrays must be arrays of strings, never objects.
+CRITICAL: You must respond with ONLY valid JSON. No additional text, no markdown formatting, no code blocks. Start directly with { and end with }.
 
-Response format:
+The response MUST be in this EXACT format:
 {
   "sentimentAnalysis": {
-    "anger": 0.0,
-    "fear": 0.0,
-    "sadness": 0.0,
-    "hope": 0.0,
-    "frustration": 0.0,
-    "compassion": 0.0
+    "anger": 0.1,
+    "fear": 0.2,
+    "sadness": 0.3,
+    "hope": 0.4,
+    "frustration": 0.5,
+    "compassion": 0.6
   },
   "perspectiveAnalysis": {
-    "completeness_of_identification_of_all_parties": 0.0,
-    "neutrality": 0.0,
-    "interest_in_one_side_over_another": 0.0,
-    "accuracy_of_facts_if_relevant": 0.0
+    "completeness_of_identification_of_all_parties": 0.7,
+    "neutrality": 0.8,
+    "interest_in_one_side_over_another": 0.9,
+    "accuracy_of_facts_if_relevant": 1.0
   },
   "facts": {
-    "historical_background": "",
-    "current_issues_preventing_peace": ""
+    "historical_background": ["Historical fact 1", "Historical fact 2"],
+    "current_issues_preventing_peace": ["Current issue 1", "Current issue 2"]
   },
-  "possibility_of_peace": "",
-  "optimal_path_forward": "",
-  "difficult_not_impossible": ""
+  "possibility_of_peace": ["Assessment point 1", "Assessment point 2"],
+  "optimal_path_forward": ["Step 1", "Step 2"],
+  "difficult_not_impossible": ["Challenge 1", "Challenge 2"]
 }`;
 
     const completion = await openai.chat.completions.create({
