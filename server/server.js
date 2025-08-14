@@ -124,6 +124,7 @@ Please provide your response in JSON format with these fields:
     });
 
     const aiResponse = completion.choices[0].message.content;
+    console.log('AI response:', aiResponse)
     let analysis = {};
 
     try {
