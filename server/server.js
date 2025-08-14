@@ -1,7 +1,9 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Pool } = require('pg');
+const OpenAI = require('openai');
 
 const app = express();
 const pool = new Pool({
@@ -16,13 +18,32 @@ const pool = new Pool({
   }
 });
 
-// Create table if not exists
+const openai = new OpenAI({
+  apiKey: process.env['OPENAI_API_KEY']
+});
+
+// Create tables if not exist
 pool.query(`
-  CREATE TABLE IF NOT EXISTS data (
+  CREATE TABLE IF NOT EXISTS conversations (
     id SERIAL PRIMARY KEY,
-    content TEXT NOT NULL
+    user_input TEXT NOT NULL,
+    analysis JSONB,
+    ai_response TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
-`).catch(err => console.error('Error creating table:', err));
+`).catch(err => console.error('Error creating conversations table:', err));
+
+pool.query(`
+  CREATE TABLE IF NOT EXISTS conflicts (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    parties JSONB,
+    key_issues JSONB,
+    analysis JSONB,
+    recommendations JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`).catch(err => console.error('Error creating conflicts table:', err));
 
 app.use(cors({
   origin: [
@@ -40,70 +61,141 @@ app.use(bodyParser.json());
 app.use(express.static('../client/dist'));
 
 app.get('/', (req, res) => {
-  res.send('Server is running!');
+  res.send('Conflict Resolution AI Server is running!');
 });
 
-// List all tables
-app.get('/api/tables', async (req, res) => {
+// Conflict resolution analysis endpoint
+app.post('/api/analyze-conflict', async (req, res) => {
+  console.log('Conflict analysis request received');
+  const { userInput } = req.body;
+
+  if (!userInput) {
+    return res.status(400).json({ error: 'User input is required' });
+  }
+
   try {
-    const result = await pool.query(`
-      SELECT table_name 
-      FROM information_schema.tables 
-      WHERE table_schema = 'public'
-    `);
+    const systemPrompt = `You are a compassionate, neutral third-party conflict resolution AI assistant. Your primary goal is to seek thorough, universally accurate truth and promote global peace and productive use of resources.
+
+Your analysis should:
+1. Assess the user's perspective on tone, completeness, accuracy, and potential bias
+2. Identify all relevant parties to the conflict
+3. Gather important key data about the situation
+4. Understand each side's feelings, motivations, and underlying causes
+5. Assess if improvement is possible
+6. Show empathy while acknowledging human suffering
+7. Suggest realistic changes needed by parties
+8. Evaluate likelihood of positive outcomes
+9. Identify other parties with obligations to act
+10. Suggest ways to help parties feel heard and heal
+
+Always be compassionate, non-judgmental, and accepting of where people are, while seeking objective truth and peaceful solutions.
+
+Please provide your response in JSON format with these fields:
+{
+  "toneAssessment": "analysis of user's tone",
+  "biasAnalysis": "assessment of completeness and potential bias",
+  "relevantParties": ["list of all parties involved"],
+  "keyIssues": ["main issues and grievances"],
+  "motivations": "understanding of each side's feelings and motivations",
+  "improvementPossible": "assessment of whether better outcomes are possible",
+  "recommendedChanges": "realistic suggestions for each party",
+  "likelihood": "probability assessment of positive change",
+  "externalParties": "other parties who should act or refrain from acting",
+  "healingApproach": "suggestions to help parties feel heard and heal",
+  "compassionateResponse": "your main empathetic response to the user"
+}`;
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4-turbo-preview",
+      messages: [
+        {
+          role: "system",
+          content: systemPrompt
+        },
+        {
+          role: "user",
+          content: userInput
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 2000
+    });
+
+    const aiResponse = completion.choices[0].message.content;
+    let analysis = {};
+
+    try {
+      analysis = JSON.parse(aiResponse);
+    } catch (parseError) {
+      console.log('Failed to parse JSON, using text response');
+      analysis = { compassionateResponse: aiResponse };
+    }
+
+    // Save conversation to database
+    const insertResult = await pool.query(
+      'INSERT INTO conversations (user_input, analysis, ai_response) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, analysis, aiResponse]
+    );
+
+    res.json({
+      analysis: analysis,
+      conversationId: insertResult.rows[0].id,
+      timestamp: insertResult.rows[0].created_at
+    });
+
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    res.status(500).json({ 
+      error: 'Failed to analyze conflict',
+      details: error.message 
+    });
+  }
+});
+
+// Get conversation history
+app.get('/api/conversations', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM conversations ORDER BY created_at DESC LIMIT 50'
+    );
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Save data to database
-app.post('/api/save', async (req, res) => {
-  console.log('Anything?');
-  if (!req.body || !req.body.content) {
-    console.error('Invalid request body');
-    return res.status(400).json({ error: 'Content is required' });
-  }
+// Save conflict analysis as a structured conflict entry
+app.post('/api/save-conflict', async (req, res) => {
+  const { name, parties, keyIssues, analysis, recommendations } = req.body;
 
-  const { content } = req.body;
   try {
-    // Test database connection first
-    const testResult = await pool.query('SELECT NOW()');
-    console.log('Database connection test succeeded:', testResult.rows[0]);
-
-    const insertResult = await pool.query('INSERT INTO data (content) VALUES ($1) RETURNING *', [content]);
-    console.log('Insert succeeded:', insertResult.rows[0]);
-
-    res.status(200).json({ message: 'Data saved successfully', data: insertResult.rows[0] });
+    const result = await pool.query(
+      'INSERT INTO conflicts (name, parties, key_issues, analysis, recommendations) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [name, parties, keyIssues, analysis, recommendations]
+    );
+    res.json({ message: 'Conflict saved successfully', conflict: result.rows[0] });
   } catch (err) {
-    console.error('Database error details:', {
-      code: err.code,
-      message: err.message,
-      detail: err.detail,
-      schema: err.schema,
-      table: err.table
-    });
     res.status(500).json({ error: err.message });
   }
 });
 
-// Retrieve data from database
-app.get('/api/data', async (req, res) => {
-  console.log('Requesting data - anything??');
+// Get all conflicts
+app.get('/api/conflicts', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM data');
-    res.status(200).json(result.rows);
+    const result = await pool.query('SELECT * FROM conflicts ORDER BY created_at DESC');
+    res.json(result.rows);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.listen(5000, '0.0.0.0', () => {
   console.log('=================================');
-  console.log('Server running on port 5000');
+  console.log('Conflict Resolution AI Server running on port 5000');
   console.log('Environment variables:');
   console.log('PGUSER:', process.env.PGUSER);
   console.log('PGHOST:', process.env.PGHOST);
   console.log('PGDATABASE:', process.env.PGDATABASE);
+  console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
   console.log('=================================');
 });
