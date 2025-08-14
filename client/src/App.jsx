@@ -83,15 +83,17 @@ function App() {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Tell me about a conflict you're concerned about... What's happening? Who's involved? What are your thoughts and feelings about it?
+            placeholder="What global conflict is weighing you down?
 
 Examples:
-• A personal conflict you're experiencing
-• A community dispute you've observed  
-• An international crisis you're worried about
-• Historical conflicts you want to understand better
+• Israel-Palestine conflict
+• Russia-Ukraine war
+• China-Taiwan tensions
+• Kashmir dispute
+• Syrian civil war
+• Yemen conflict
 
-I'm here to listen without judgment and help explore paths toward understanding and peace."
+Share your thoughts, concerns, or questions about any international crisis that's on your mind..."
             className="conflict-input"
             disabled={loading}
             rows={8}
@@ -102,7 +104,7 @@ I'm here to listen without judgment and help explore paths toward understanding 
               disabled={loading || !userInput.trim()}
               className="analyze-button"
             >
-              {loading ? '🤔 Analyzing with compassion...' : '🔍 Seek Understanding'}
+              {loading ? '🤔 Analyzing with compassion...' : '🕊️ Is Peace Possible?'}
             </button>
             <button 
               onClick={() => setShowHistory(!showHistory)}
