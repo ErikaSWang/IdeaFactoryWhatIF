@@ -26,7 +26,7 @@ BACKEND
 10. npm install express pg cors body-parser
 
 11. Create database
-12. Create server.js:
+12. Create server.js (Pool/pg IS THE DATABASE??)
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -395,3 +395,7 @@ export default defineConfig({
 20. Deploy (to get the server/api to work) - autoscale
 21. BUILD COMMAND: cd client && npm install && npm run build (SAME)
 22. RUN COMMAND: cd server && npm install && node server.js (SAME)
+
+23. Sample code from CodeCademy that shows how to use js fetch on the backend using a secure node server rather than sending it in the browser on the frontend as I have been doing: https://github.com/Codecademy-Curriculum/deploying-backend-with-render-sample/blob/main/app.js
+
+24.

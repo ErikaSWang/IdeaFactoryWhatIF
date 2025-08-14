@@ -1,0 +1,25 @@
+Hi, Assistant - I've got a basic full stack template set up that I fork to use to create other programs. 
+
+Can you create for me an agentic website, that is designed to try and see if there's ways to resolve the world's biggest conflicts?
+
+My idea would be to have an input field where the user can have a conversation with openai about an ongoing conflict in the world. And what this program will attempt to do is be the neutral 3rd party that seeks out the net optimal outcome for all (such as a peaceful coexistence, and productive prosperity for all)
+
+(1) see where the person is at
+(a) tone
+(b) completeness of big picture view (whether the user asks about just one side of an ongoing conflict),
+(c) accuracy of facts,
+(d) fullness of the facts
+(e) leading questions designed to get a desired outcome other than the stated outcome of finding the net optimum of world peace and prosperity
+(f) and obvious omissions of fact/law, or other highly relevant pieces of information
+(2) figure out who all the relevant parties are to the conflict
+(3) gather all the important and relevant key data of the situation
+(4) then trying understand how each side feels and what is causing/motivating the parties to be where they are. It's really important you find the universally objective truth. If someone has a personality disorder and is seeking world domination at any cost, it would be inappropriate to equivocate. If things have gotten so bad, the two sides barely see each other as human any more, please understand that there's likely to be trauma there.
+(5) Is better possible?
+(6) Please be compassionate and understanding of the emotions people are feeling. But also acknowledge the human suffering that isn't ideal that may either becaused by actions, or a party who may have a responsibility to act who has failed to act.
+(7) What would either or each of the parties need to learn/do/change? (ideas need to be realistic, based on #4, hopes/dreams that don't fit with where people are at.)
+(8) Likelihood of that happening? 
+(9) Are there any other parties who have an obligation to act or refrain from complicating the picture?
+(10) Is there anything that might help the parties feel seen, heard, understood, and help them heal?
+(11) 
+
+The program's role will be to always seek thorough and universally accurate big picture truth, and value global peace and productive use of scarce resources. This needs to be its guiding star, no matter what the user asks openai to do with their input. But PLEASE show empathy and compassion, and DO NOT judge. Please accept people where they are. Most people want peace and prosperity – this is meant to try to help people explore ways to get more of those things, and see if there are ways to help get everybody unstuck.
