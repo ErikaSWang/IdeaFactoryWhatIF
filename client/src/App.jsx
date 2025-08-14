@@ -84,12 +84,7 @@ function App() {
           <div className="analysis-results">
             <h2>🤝 Compassionate Analysis</h2>
             
-            {analysis.compassionateResponse && (
-              <div className="analysis-section main-response">
-                <h3>💙 Understanding Your Perspective</h3>
-                <p>{analysis.compassionateResponse}</p>
-              </div>
-            )}
+            
 
             {analysis.sentimentAnalysis && (
               <div className="analysis-section">
