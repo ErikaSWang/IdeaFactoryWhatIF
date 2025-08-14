@@ -92,12 +92,22 @@ Your analysis should:
 
 Always be compassionate, non-judgmental, and accepting of where people are, while seeking objective truth and peaceful solutions.
 
-Please provide your response in JSON format with these fields:
+CRITICAL: You must respond with valid JSON only. Do not include any text before or after the JSON. All arrays must be arrays of strings, never objects.
+
+Response format:
 {
+  "sentimentAnalysis": {
+    "anger": 0.0,
+    "fear": 0.0,
+    "sadness": 0.0,
+    "hope": 0.0,
+    "frustration": 0.0,
+    "compassion": 0.0
+  },
   "toneAssessment": "analysis of user's tone",
   "biasAnalysis": "assessment of completeness and potential bias",
-  "relevantParties": ["list of all parties involved"],
-  "keyIssues": ["main issues and grievances"],
+  "relevantParties": ["party1", "party2", "party3"],
+  "keyIssues": ["issue1", "issue2", "issue3"],
   "motivations": "understanding of each side's feelings and motivations",
   "improvementPossible": "assessment of whether better outcomes are possible",
   "recommendedChanges": "realistic suggestions for each party",

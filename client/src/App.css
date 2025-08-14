@@ -216,6 +216,46 @@
   color: #4a5568;
 }
 
+.sentiment-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.sentiment-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sentiment-label {
+  min-width: 100px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.sentiment-bar {
+  flex: 1;
+  height: 20px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sentiment-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 10px;
+  transition: width 0.8s ease;
+}
+
+.sentiment-value {
+  min-width: 50px;
+  text-align: right;
+  font-weight: 600;
+  color: #667eea;
+}
+
 .conversation-history {
   margin-top: 3rem;
   padding-top: 2rem;

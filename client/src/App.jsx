@@ -132,6 +132,28 @@ I'm here to listen without judgment and help explore paths toward understanding 
               </div>
             )}
 
+            {analysis.sentimentAnalysis && (
+              <div className="analysis-section">
+                <h3>📊 Emotional Sentiment Analysis</h3>
+                <div className="sentiment-grid">
+                  {Object.entries(analysis.sentimentAnalysis).map(([emotion, value]) => (
+                    <div key={emotion} className="sentiment-item">
+                      <div className="sentiment-label">
+                        {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
+                      </div>
+                      <div className="sentiment-bar">
+                        <div 
+                          className="sentiment-fill" 
+                          style={{ width: `${value * 100}%` }}
+                        ></div>
+                      </div>
+                      <div className="sentiment-value">{(value * 100).toFixed(1)}%</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {analysis.toneAssessment && (
               <div className="analysis-section">
                 <h3>🎭 Emotional Tone Assessment</h3>
