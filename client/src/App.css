@@ -256,6 +256,57 @@
   color: #667eea;
 }
 
+.perspective-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.perspective-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.perspective-label {
+  min-width: 200px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.perspective-bar {
+  flex: 1;
+  height: 20px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.perspective-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f093fb, #f5576c);
+  border-radius: 10px;
+  transition: width 0.8s ease;
+}
+
+.perspective-value {
+  min-width: 50px;
+  text-align: right;
+  font-weight: 600;
+  color: #f5576c;
+}
+
+.facts-subsection {
+  margin-bottom: 1.5rem;
+}
+
+.facts-subsection h4 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
 .conversation-history {
   margin-top: 3rem;
   padding-top: 2rem;

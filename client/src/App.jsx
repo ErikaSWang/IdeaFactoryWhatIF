@@ -154,91 +154,84 @@ I'm here to listen without judgment and help explore paths toward understanding 
               </div>
             )}
 
-            {analysis.toneAssessment && (
-              <div className="analysis-section">
-                <h3>🎭 Emotional Tone Assessment</h3>
-                <p>{analysis.toneAssessment}</p>
-              </div>
-            )}
-
-            {analysis.biasAnalysis && (
+            {analysis.perspectiveAnalysis && (
               <div className="analysis-section">
                 <h3>🔍 Perspective Analysis</h3>
-                <p>{analysis.biasAnalysis}</p>
+                <div className="perspective-grid">
+                  {Object.entries(analysis.perspectiveAnalysis).map(([aspect, value]) => (
+                    <div key={aspect} className="perspective-item">
+                      <div className="perspective-label">
+                        {aspect.replace(/_/g, ' ').charAt(0).toUpperCase() + aspect.replace(/_/g, ' ').slice(1)}
+                      </div>
+                      <div className="perspective-bar">
+                        <div 
+                          className="perspective-fill" 
+                          style={{ width: `${value * 100}%` }}
+                        ></div>
+                      </div>
+                      <div className="perspective-value">{(value * 100).toFixed(1)}%</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
-            {analysis.relevantParties && (
+            {analysis.facts && (
               <div className="analysis-section">
-                <h3>👥 Key Parties Involved</h3>
-                <ul>
-                  {Array.isArray(analysis.relevantParties) 
-                    ? analysis.relevantParties.map((party, index) => (
-                        <li key={index}>{typeof party === 'string' ? party : JSON.stringify(party)}</li>
-                      ))
-                    : Object.keys(analysis.relevantParties).map((key, index) => (
-                        <li key={index}>{key}</li>
-                      ))
-                  }
-                </ul>
+                <h3>📚 Historical Context & Current Issues</h3>
+                {analysis.facts.historical_background && analysis.facts.historical_background.length > 0 && (
+                  <div className="facts-subsection">
+                    <h4>🏛️ Historical Background</h4>
+                    <ul>
+                      {analysis.facts.historical_background.map((fact, index) => (
+                        <li key={index}>{fact}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {analysis.facts.current_issues_preventing_peace && analysis.facts.current_issues_preventing_peace.length > 0 && (
+                  <div className="facts-subsection">
+                    <h4>⚠️ Current Issues Preventing Peace</h4>
+                    <ul>
+                      {analysis.facts.current_issues_preventing_peace.map((issue, index) => (
+                        <li key={index}>{issue}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 
-            {analysis.keyIssues && (
-              <div className="analysis-section">
-                <h3>⚖️ Core Issues</h3>
-                <ul>
-                  {Array.isArray(analysis.keyIssues) 
-                    ? analysis.keyIssues.map((issue, index) => (
-                        <li key={index}>{typeof issue === 'string' ? issue : JSON.stringify(issue)}</li>
-                      ))
-                    : Object.keys(analysis.keyIssues).map((key, index) => (
-                        <li key={index}>{key}</li>
-                      ))
-                  }
-                </ul>
-              </div>
-            )}
-
-            {analysis.motivations && (
-              <div className="analysis-section">
-                <h3>❤️ Understanding Each Side</h3>
-                <p>{analysis.motivations}</p>
-              </div>
-            )}
-
-            {analysis.improvementPossible && (
+            {analysis.possibility_of_peace && analysis.possibility_of_peace.length > 0 && (
               <div className="analysis-section hope">
-                <h3>🌅 Is Better Possible?</h3>
-                <p>{analysis.improvementPossible}</p>
+                <h3>🕊️ Possibility of Peace</h3>
+                <ul>
+                  {analysis.possibility_of_peace.map((assessment, index) => (
+                    <li key={index}>{assessment}</li>
+                  ))}
+                </ul>
               </div>
             )}
 
-            {analysis.recommendedChanges && (
+            {analysis.optimal_path_forward && analysis.optimal_path_forward.length > 0 && (
               <div className="analysis-section">
-                <h3>🛤️ Pathways Forward</h3>
-                <p>{analysis.recommendedChanges}</p>
+                <h3>🛤️ Optimal Path Forward</h3>
+                <ul>
+                  {analysis.optimal_path_forward.map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
+                </ul>
               </div>
             )}
 
-            {analysis.likelihood && (
+            {analysis.difficult_not_impossible && analysis.difficult_not_impossible.length > 0 && (
               <div className="analysis-section">
-                <h3>📊 Realistic Assessment</h3>
-                <p>{analysis.likelihood}</p>
-              </div>
-            )}
-
-            {analysis.externalParties && (
-              <div className="analysis-section">
-                <h3>🌍 Others Who Can Help</h3>
-                <p>{analysis.externalParties}</p>
-              </div>
-            )}
-
-            {analysis.healingApproach && (
-              <div className="analysis-section healing">
-                <h3>🌱 Healing and Understanding</h3>
-                <p>{analysis.healingApproach}</p>
+                <h3>💪 Challenges But Not Impossible</h3>
+                <ul>
+                  {analysis.difficult_not_impossible.map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
