@@ -51,16 +51,6 @@ function App() {
 
   return (
     <div className="conflict-resolution-app">
-      <header className="app-header">
-        <h1>🕊️ Peaceful Path AI</h1>
-        <p className="app-subtitle">
-          An AI assistant dedicated to finding peaceful solutions to global conflicts
-        </p>
-        <p className="app-description">
-          Share your thoughts about any ongoing conflict, and I'll help analyze the situation 
-          with compassion, seeking truth and pathways toward peace and prosperity for all.
-        </p>
-      </header>
 
       <main className="main-content">
         <div className="input-section">
@@ -68,28 +58,16 @@ function App() {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="What global conflict is weighing you down?
-
-Examples:
-• Israel-Palestine conflict
-• Russia-Ukraine war
-• China-Taiwan tensions
-• Kashmir dispute
-• Syrian civil war
-• Yemen conflict
-
-Share your thoughts, concerns, or questions about any international crisis that's on your mind..."
+            placeholder="What global conflict has caught your eye"
             className="conflict-input"
             disabled={loading}
-            rows={8}
+            rows={2}
           />
           <div className="input-actions">
             <button 
               onClick={handleAnalyzeConflict} 
-              disabled={loading || !userInput.trim()}
               className="analyze-button"
-            >
-              {loading ? '🤔 Analyzing with compassion...' : '🕊️ Is Peace Possible?'}
+            >Is Peace Possible?
             </button>
           </div>
           <p className="input-hint">💡 Press Ctrl+Enter to analyze</p>
@@ -221,12 +199,6 @@ Share your thoughts, concerns, or questions about any international crisis that'
         
       </main>
 
-      <footer className="app-footer">
-        <p>
-          🌍 Built with compassion to help explore pathways toward peace and understanding. 
-          This tool seeks objective truth while honoring all human experiences.
-        </p>
-      </footer>
     </div>
   );
 }

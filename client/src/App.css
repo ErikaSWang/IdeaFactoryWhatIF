@@ -1,6 +1,6 @@
 
 .conflict-resolution-app {
-  max-width: 1200px;
+  width: 100vw;
   margin: 0 auto;
   padding: 2rem;
   font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
@@ -10,28 +10,7 @@
   color: #333;
 }
 
-.app-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
 
-.app-header h1 {
-  color: #4a5568;
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.app-subtitle {
-  font-size: 1.2rem;
-  color: #718096;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
 
 .app-description {
   color: #4a5568;
@@ -41,6 +20,7 @@
 }
 
 .main-content {
+  width: 90vw;
   background: rgba(255, 255, 255, 0.98);
   border-radius: 20px;
   padding: 2rem;
@@ -53,7 +33,7 @@
 }
 
 .conflict-input {
-  width: 100%;
+  width: 80vw;
   min-height: 200px;
   padding: 1.5rem;
   border: 2px solid #e2e8f0;
@@ -108,23 +88,6 @@
   transform: none;
 }
 
-.history-button {
-  background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
-  padding: 1rem 2rem;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.history-button:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-}
 
 .input-hint {
   color: #a0aec0;

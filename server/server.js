@@ -87,7 +87,6 @@ CRITICAL: You must respond with valid JSON only. Do not include any text before 
 
 Response format:
 {
-  "compassionateResponse": "A compassionate response to the user's input about the conflict",
   "sentimentAnalysis": {
     "anger": 0.0,
     "fear": 0.0,
