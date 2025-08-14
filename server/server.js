@@ -83,9 +83,7 @@ app.post('/api/analyze-conflict', async (req, res) => {
     3. What would the optimal path forward be, that has a possibility the two parties might follow? (Can go in phases if needed)
     4. Why it may be difficult, but not impossible.
 
-CRITICAL: You must respond with valid JSON only. Do not include any text before or after the JSON. 
-
-IMPORTANT: All array fields (historical_background, current_issues_preventing_peace, possibility_of_peace, optimal_path_forward, difficult_not_impossible) must be arrays containing only strings. Never return objects or nested structures in these arrays.
+CRITICAL: You must respond with valid JSON only. Do not include any text before or after the JSON. All arrays must be arrays of strings, never objects.
 
 Response format:
 {
@@ -104,12 +102,12 @@ Response format:
     "accuracy_of_facts_if_relevant": 0.0
   },
   "facts": {
-    "historical_background": ["string1", "string2", "string3"],
-    "current_issues_preventing_peace": ["string1", "string2", "string3"]
+    "historical_background": [],
+    "current_issues_preventing_peace": []
   },
-  "possibility_of_peace": ["string1", "string2", "string3"],
-  "optimal_path_forward": ["string1", "string2", "string3"],
-  "difficult_not_impossible": ["string1", "string2", "string3"]
+  "possibility_of_peace": [],
+  "optimal_path_forward": [],
+  "difficult_not_impossible": []
 }`;
 
     const completion = await openai.chat.completions.create({
