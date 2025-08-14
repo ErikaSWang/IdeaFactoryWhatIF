@@ -102,12 +102,12 @@ Response format:
     "accuracy_of_facts_if_relevant": 0.0
   },
   "facts": {
-    "historical_background": '',
-    "current_issues_preventing_peace": ''
+    "historical_background": [""],
+    "current_issues_preventing_peace": [""]
   },
-  "possibility_of_peace": '',
-  "optimal_path_forward": '',
-  "difficult_not_impossible": ''
+  "possibility_of_peace": [""],
+  "optimal_path_forward": [""],
+  "difficult_not_impossible": [""]
 }`;
 
     const completion = await openai.chat.completions.create({
