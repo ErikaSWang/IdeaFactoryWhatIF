@@ -102,12 +102,12 @@ Response format:
     "accuracy_of_facts_if_relevant": 0.0
   },
   "facts": {
-    "historical_background": [""],
-    "current_issues_preventing_peace": [""]
+    "historical_background": "",
+    "current_issues_preventing_peace": ""
   },
-  "possibility_of_peace": [""],
-  "optimal_path_forward": [""],
-  "difficult_not_impossible": [""]
+  "possibility_of_peace": "",
+  "optimal_path_forward": "",
+  "difficult_not_impossible": ""
 }`;
 
     const completion = await openai.chat.completions.create({
@@ -122,8 +122,7 @@ Response format:
           content: userInput
         }
       ],
-      temperature: 0.7,
-      max_tokens: 2000
+      max_completion_tokens: 2000
     });
 
     const aiResponse = completion.choices[0].message.content;
@@ -134,7 +133,6 @@ Response format:
       analysis = JSON.parse(aiResponse);
     } catch (parseError) {
       console.log('Failed to parse JSON, using text response');
-      analysis = { compassionateResponse: aiResponse };
     }
 
     // Save conversation to database
