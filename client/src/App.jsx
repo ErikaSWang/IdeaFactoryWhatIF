@@ -7,7 +7,6 @@ function App() {
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
-  const [showHistory, setShowHistory] = useState(false);
   const [error, setError] = useState(null);
 
   const handleAnalyzeConflict = async () => {
@@ -42,21 +41,7 @@ function App() {
     }
   };
 
-  const loadConversations = async () => {
-    try {
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/conversations');
-      const result = await response.json();
-      setConversations(result);
-    } catch (error) {
-      console.error('Error loading conversations:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (showHistory) {
-      loadConversations();
-    }
-  }, [showHistory]);
+  
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
@@ -105,12 +90,6 @@ Share your thoughts, concerns, or questions about any international crisis that'
               className="analyze-button"
             >
               {loading ? '🤔 Analyzing with compassion...' : '🕊️ Is Peace Possible?'}
-            </button>
-            <button 
-              onClick={() => setShowHistory(!showHistory)}
-              className="history-button"
-            >
-              {showHistory ? 'Hide History' : 'Show History'}
             </button>
           </div>
           <p className="input-hint">💡 Press Ctrl+Enter to analyze</p>
@@ -239,30 +218,7 @@ Share your thoughts, concerns, or questions about any international crisis that'
           </div>
         )}
 
-        {showHistory && (
-          <div className="conversation-history">
-            <h2>📚 Previous Conversations</h2>
-            {conversations.length === 0 ? (
-              <p>No conversations yet. Start by sharing a conflict you'd like to explore.</p>
-            ) : (
-              conversations.map((conv) => (
-                <div key={conv.id} className="conversation-item">
-                  <div className="conversation-date">
-                    {new Date(conv.created_at).toLocaleString()}
-                  </div>
-                  <div className="conversation-input">
-                    <strong>Your input:</strong> {conv.user_input.substring(0, 200)}...
-                  </div>
-                  {conv.analysis?.compassionateResponse && (
-                    <div className="conversation-response">
-                      <strong>AI Response:</strong> {conv.analysis.compassionateResponse.substring(0, 300)}...
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
-        )}
+        
       </main>
 
       <footer className="app-footer">
