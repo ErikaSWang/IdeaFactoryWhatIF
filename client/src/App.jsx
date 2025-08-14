@@ -58,7 +58,7 @@ function App() {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="What global conflict has caught your eye"
+            placeholder="What global conflict is weighing you down?"
             className="conflict-input"
             disabled={loading}
             rows={2}
@@ -136,21 +136,13 @@ function App() {
                 {analysis.facts.historical_background && analysis.facts.historical_background.length > 0 && (
                   <div className="facts-subsection">
                     <h4>🏛️ Historical Background</h4>
-                    <ul>
-                      {analysis.facts.historical_background.map((fact, index) => (
-                        <li key={index}>{fact}</li>
-                      ))}
-                    </ul>
+                    <p>{Array.isArray(analysis.facts.historical_background) ? analysis.facts.historical_background.join(' ') : JSON.stringify(analysis.facts.historical_background)}</p>
                   </div>
                 )}
                 {analysis.facts.current_issues_preventing_peace && analysis.facts.current_issues_preventing_peace.length > 0 && (
                   <div className="facts-subsection">
                     <h4>⚠️ Current Issues Preventing Peace</h4>
-                    <ul>
-                      {analysis.facts.current_issues_preventing_peace.map((issue, index) => (
-                        <li key={index}>{issue}</li>
-                      ))}
-                    </ul>
+                    <p>{Array.isArray(analysis.facts.current_issues_preventing_peace) ? analysis.facts.current_issues_preventing_peace.join(' ') : JSON.stringify(analysis.facts.current_issues_preventing_peace)}</p>
                   </div>
                 )}
               </div>
@@ -159,33 +151,21 @@ function App() {
             {analysis.possibility_of_peace && analysis.possibility_of_peace.length > 0 && (
               <div className="analysis-section hope">
                 <h3>🕊️ Possibility of Peace</h3>
-                <ul>
-                  {analysis.possibility_of_peace.map((assessment, index) => (
-                    <li key={index}>{assessment}</li>
-                  ))}
-                </ul>
+                <p>{Array.isArray(analysis.possibility_of_peace) ? analysis.possibility_of_peace.join(' ') : JSON.stringify(analysis.possibility_of_peace)}</p>
               </div>
             )}
 
             {analysis.optimal_path_forward && analysis.optimal_path_forward.length > 0 && (
               <div className="analysis-section">
                 <h3>🛤️ Optimal Path Forward</h3>
-                <ul>
-                  {analysis.optimal_path_forward.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ul>
+                <p>{Array.isArray(analysis.optimal_path_forward) ? analysis.optimal_path_forward.join(' ') : JSON.stringify(analysis.optimal_path_forward)}</p>
               </div>
             )}
 
             {analysis.difficult_not_impossible && analysis.difficult_not_impossible.length > 0 && (
               <div className="analysis-section">
                 <h3>💪 Challenges But Not Impossible</h3>
-                <ul>
-                  {analysis.difficult_not_impossible.map((point, index) => (
-                    <li key={index}>{point}</li>
-                  ))}
-                </ul>
+                <p>{Array.isArray(analysis.difficult_not_impossible) ? analysis.difficult_not_impossible.join(' ') : JSON.stringify(analysis.difficult_not_impossible)}</p>
               </div>
             )}
           </div>
