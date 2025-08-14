@@ -146,24 +146,34 @@ I'm here to listen without judgment and help explore paths toward understanding 
               </div>
             )}
 
-            {analysis.relevantParties && analysis.relevantParties.length > 0 && (
+            {analysis.relevantParties && (
               <div className="analysis-section">
                 <h3>👥 Key Parties Involved</h3>
                 <ul>
-                  {analysis.relevantParties.map((party, index) => (
-                    <li key={index}>{party}</li>
-                  ))}
+                  {Array.isArray(analysis.relevantParties) 
+                    ? analysis.relevantParties.map((party, index) => (
+                        <li key={index}>{typeof party === 'string' ? party : JSON.stringify(party)}</li>
+                      ))
+                    : Object.keys(analysis.relevantParties).map((key, index) => (
+                        <li key={index}>{key}</li>
+                      ))
+                  }
                 </ul>
               </div>
             )}
 
-            {analysis.keyIssues && analysis.keyIssues.length > 0 && (
+            {analysis.keyIssues && (
               <div className="analysis-section">
                 <h3>⚖️ Core Issues</h3>
                 <ul>
-                  {analysis.keyIssues.map((issue, index) => (
-                    <li key={index}>{issue}</li>
-                  ))}
+                  {Array.isArray(analysis.keyIssues) 
+                    ? analysis.keyIssues.map((issue, index) => (
+                        <li key={index}>{typeof issue === 'string' ? issue : JSON.stringify(issue)}</li>
+                      ))
+                    : Object.keys(analysis.keyIssues).map((key, index) => (
+                        <li key={index}>{key}</li>
+                      ))
+                  }
                 </ul>
               </div>
             )}
