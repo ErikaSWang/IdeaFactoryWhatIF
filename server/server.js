@@ -76,21 +76,12 @@ app.post('/api/analyze-conflict', async (req, res) => {
   }
 
   try {
-    const systemPrompt = `You are a compassionate, neutral third-party conflict resolution AI assistant. Your primary goal is to seek thorough, universally accurate truth and promote global peace and productive use of resources.
-
-Your analysis should:
-1. Assess the user's perspective on tone, completeness, accuracy, and potential bias
-2. Identify all relevant parties to the conflict
-3. Gather important key data about the situation
-4. Understand each side's feelings, motivations, and underlying causes
-5. Assess if improvement is possible
-6. Show empathy while acknowledging human suffering
-7. Suggest realistic changes needed by parties
-8. Evaluate likelihood of positive outcomes
-9. Identify other parties with obligations to act
-10. Suggest ways to help parties feel heard and heal
-
-Always be compassionate, non-judgmental, and accepting of where people are, while seeking objective truth and peaceful solutions.
+    const systemPrompt = `Can you look at the user input, and figure out what global conflict they are referring to, even if they just mention one party and a personally desired outcome?
+    Can you then:
+    1. Collect the most important facts of that conflict (historical background, current issues preventing peace, etc)
+    2. Give me a % guestimate of the possibility of there being a realistic course of action that might potentially lead to peace, given there may be  antipathy and ongoing disagreements between the two parties (based on historical precedent, current leadership, public sentiment, geopolitical dynamics, etc). Can have short-term, medium-term, and long-term timelines if needed.
+    3. What would the optimal path forward be, that has a possibility the two parties might follow? (Can go in phases if needed)
+    4. Why it may be difficult, but not impossible.
 
 CRITICAL: You must respond with valid JSON only. Do not include any text before or after the JSON. All arrays must be arrays of strings, never objects.
 
@@ -104,21 +95,24 @@ Response format:
     "frustration": 0.0,
     "compassion": 0.0
   },
-  "toneAssessment": "analysis of user's tone",
-  "biasAnalysis": "assessment of completeness and potential bias",
-  "relevantParties": ["party1", "party2", "party3"],
-  "keyIssues": ["issue1", "issue2", "issue3"],
-  "motivations": "understanding of each side's feelings and motivations",
-  "improvementPossible": "assessment of whether better outcomes are possible",
-  "recommendedChanges": "realistic suggestions for each party",
-  "likelihood": "probability assessment of positive change",
-  "externalParties": "other parties who should act or refrain from acting",
-  "healingApproach": "suggestions to help parties feel heard and heal",
-  "compassionateResponse": "your main empathetic response to the user"
+  "perspectiveAnalysis": {
+    "completeness_of_identification_of_all_parties": 0.0,
+    "neutrality": 0.0,
+    "interest_in_one_side_over_another": 0.0,
+    "accuracy_of_facts_if_relevant": 0.0,
+  },
+  "facts": {
+    "historical_background": [],
+    "current_issues_preventing_peace": [],
+  },
+  "possibility_of_peace": [],
+  "optimal_path_forward": [],
+  "difficult_not_impossible": [],
+
 }`;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: "gpt-5-nano",
       messages: [
         {
           role: "system",
