@@ -17,10 +17,28 @@ export const Home = () => {
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState(null);
   const [textareaHeight, setTextareaHeight] = useState(0);
+  const [outputHeight, setOutputHeight] = useState('50vh');
 
   useEffect(() => {
+    const calculateOutputHeight = () => {
+      const windowHeight = window.innerHeight;
+      const headerHeight = 100; // Approximate header height in pixels
+      const padding = 40; // General padding
+      const footerHeight = textareaHeight + 120; // Textarea + button + padding
+      
+      const availableHeight = windowHeight - headerHeight - footerHeight - padding;
+      const outputHeightVh = (availableHeight / windowHeight) * 100;
+      
+      // Ensure minimum height of 20vh and maximum of 60vh
+      const clampedHeight = Math.max(20, Math.min(60, outputHeightVh));
+      setOutputHeight(`${clampedHeight}vh`);
+    };
 
-  }, []);
+    calculateOutputHeight();
+    window.addEventListener('resize', calculateOutputHeight);
+    
+    return () => window.removeEventListener('resize', calculateOutputHeight);
+  }, [textareaHeight]);
 
   const handleAnalyzeConflict = async () => {
     if (!userInput.trim()) {
@@ -73,7 +91,10 @@ export const Home = () => {
       <Container className='d-flex flex-col justify-content-center align-content-between flex-wrap main-component'>
 
 
-        <Container className='d-flex flex-col justify-content-center output'>
+        <Container 
+          className='d-flex flex-col justify-content-center output'
+          style={{ height: outputHeight }}
+        >
           { loading ?
             <Spinner />
             :
@@ -89,7 +110,12 @@ export const Home = () => {
           </div>
         )}
 
-        <Query userInput={userInput} setUserInput={setUserInput} handleAnalyzeConflict={handleAnalyzeConflict} />
+        <Query 
+          userInput={userInput} 
+          setUserInput={setUserInput} 
+          handleAnalyzeConflict={handleAnalyzeConflict}
+          onTextareaHeightChange={setTextareaHeight}
+        />
 
       </Container>
     </>
