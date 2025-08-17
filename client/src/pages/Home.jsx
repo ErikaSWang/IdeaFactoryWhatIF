@@ -16,9 +16,10 @@ export const Home = () => {
   const [returned, setReturned] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState(null);
+  const [textareaHeight, setTextareaHeight] = useState(0);
 
   useEffect(() => {
-    
+
   }, []);
 
   const handleAnalyzeConflict = async () => {
@@ -29,7 +30,7 @@ export const Home = () => {
     setTimeout(() => {
       setLoading(true);
     }, 500);
-    
+
     setError(null);
 
     try {
@@ -78,7 +79,7 @@ export const Home = () => {
             :
             <Fresh />
           }
-          
+
         </Container>
 
         {error && (
