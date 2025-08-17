@@ -1,9 +1,9 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Pool } = require('pg');
 const OpenAI = require('openai');
+//const { Agent, run, tool } = require('@openai/agents');
 
 const app = express();
 const pool = new Pool({
@@ -63,12 +63,12 @@ app.use(bodyParser.json());
 app.use(express.static('../client/dist'));
 
 app.get('/', (req, res) => {
-  res.send('Conflict Resolution AI Server is running!');
+  res.send('Server is running!');
 });
 
-// Conflict resolution analysis endpoint
+// Input endpoint
 app.post('/api/analyze-conflict', async (req, res) => {
-  console.log('Conflict analysis request received');
+  console.log('Request received');
   const { userInput } = req.body;
 
   if (!userInput) {
@@ -76,56 +76,63 @@ app.post('/api/analyze-conflict', async (req, res) => {
   }
 
   try {
-    const systemPrompt = `Can you look at the user input, and figure out what global conflict they are referring to, even if they just mention one party and a personally desired outcome?
-    Can you then:
-    1. Collect the most important facts of that conflict (historical background, current issues preventing peace, etc)
-    2. Give me a % guestimate of the possibility of there being a realistic course of action that might potentially lead to peace, given there may be  antipathy and ongoing disagreements between the two parties (based on historical precedent, current leadership, public sentiment, geopolitical dynamics, etc). Can have short-term, medium-term, and long-term timelines if needed.
-    3. What would the optimal path forward be, that has a possibility the two parties might follow? (Can go in phases if needed)
-    4. Why it may be difficult, but not impossible.
+    const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
+    Can you:
+    1. Look at the user input, and figure out what other parties may be involved, even if they just mention one party and a personally desired outcome? If it's a global conflict they only mention one party, you must identify the other party(s) by name (It's imperative you use the web search to find the right individuals and/or organizations involved, as well as the most up-to-date details of the conflict, and that you understand the dynamics at play. Otherwise your response will target the wrong issues.)
+    2. Collect the all the relevant facts of that conflict that have led up to this point (historical background (as far back as possible - but as short as possible. As well, current issues preventing peace)
+    3. What are the feelings and mindset of the parties involved in the conflict?
+    4. What are the most realistic trajectories for this dispute? Please give a rating for which seems most realistic if nothing changes. It's imperative you be specific to this particular situation, relying on the web search you did above to customize your assessment to THESE people in THIS situation, based on the work you did in #1. DO NOT generalize and use patterns from similar situations you have in your data set.
+    5. Which individuals or groups of individuals have the power to change the trajectory to something better? Are there any new options that haven't been tried before, that could realistically be achieved? Please mention each by name, and then be as specific and as thorough as possible with what they could do differently, to effect a better outcome. This is one of the most important parts.
+    6. Are there any past traumas, current hopes/dreams/fears/frustrations that would need to be healed/addressed to make #5 realistically viable? Are there any actions or shifts in mindset that might need to be made?
+    7. Acknowledge any parties who may be motivated to take things in a different direction from #4.
+    8. Give me a % guestimate of the possibility of there being a realistic course of action that might potentially lead to peace and greater productivity/prosperity.
+    9. Are there any existing software tools that could be used to help with this conflict?
+    10. Are there any new software tools or other pieces of technology that could be created to help? Please think of as many as you possibly can, from the most obvious, to anything outside the box that could possibly make a difference. For any new software tool ideas you came up with, please add whether you would you be able to build a prototype right now.
 
-CRITICAL: You must respond with ONLY valid JSON. No additional text, no markdown formatting, no code blocks. Start directly with { and end with }.
+Please use simple language.
 
-The response MUST be in this EXACT format:
+Please use the following JSON format for your response. Return only a single valid JSON object. No prose, no code fences, no comments, no trailing commas. For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
+
 {
-  "sentimentAnalysis": {
-    "anger": 0.1,
-    "fear": 0.2,
-    "sadness": 0.3,
-    "hope": 0.4,
-    "frustration": 0.5,
-    "compassion": 0.6
-  },
-  "perspectiveAnalysis": {
-    "completeness_of_identification_of_all_parties": 0.7,
-    "neutrality": 0.8,
-    "interest_in_one_side_over_another": 0.9,
-    "accuracy_of_facts_if_relevant": 1.0
-  },
+  "title": ""
+  "conflict_identified": "",
+  "parties identified": "",
   "facts": {
-    "historical_background": ["Historical fact 1", "Historical fact 2"],
-    "current_issues_preventing_peace": ["Current issue 1", "Current issue 2"]
+    "historical_background": "",
+    "current_issues_preventing_peace": "",
   },
-  "possibility_of_peace": ["Assessment point 1", "Assessment point 2"],
-  "optimal_path_forward": ["Step 1", "Step 2"],
-  "difficult_not_impossible": ["Challenge 1", "Challenge 2"]
+  "realistic_trajectories": [],
+  "new_options": [],
+  "healing_needed": "",
+  "antagonists": "",
+  "odds": "",
+  "tools": {
+    "existing": "",
+    "new": []
+  }
 }`;
-
-    const completion = await openai.chat.completions.create({
+    
+    const client = OpenAI()
+    
+    const completion = await client.responses.create({
       model: "gpt-5-nano",
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt
-        },
-        {
-          role: "user",
-          content: userInput
-        }
-      ],
-      max_completion_tokens: 2000
+      reasoning: {
+        effort: "medium"
+      },
+      text: {
+        verbosity: "low"
+      },
+      /*
+      tools: [{
+          type: "web_search_preview",
+          search_context_size: "low",
+      }],
+      */
+      instructions: systemPrompt,
+      input: userInput
     });
 
-    const aiResponse = completion.choices[0].message.content;
+    const aiResponse = completion.output_text;
     console.log('AI response:', aiResponse)
     let analysis = {};
 

@@ -1,176 +1,26 @@
-
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import { Root } from './components/Root';
+import { Home } from './pages/Home';
+import { Events } from './pages/Events';
 
-function App() {
-  const [userInput, setUserInput] = useState('');
-  const [analysis, setAnalysis] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [conversations, setConversations] = useState([]);
-  const [error, setError] = useState(null);
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={ <Root /> }>
+    <Route index element={ <Home /> } />
+    <Route path="events" element={ <Events /> } />
+  </Route>
+));
 
-  const handleAnalyzeConflict = async () => {
-    if (!userInput.trim()) {
-      setError('Please enter information about a conflict to analyze.');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/analyze-conflict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userInput }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setAnalysis(result.analysis);
-      setUserInput('');
-      
-    } catch (error) {
-      console.error('Error analyzing conflict:', error);
-      setError(`Error: ${error.message}. Please check that your OpenAI API key is set correctly.`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && e.ctrlKey) {
-      handleAnalyzeConflict();
-    }
-  };
-
+export default function App() {
   return (
-    <div className="conflict-resolution-app">
-
-      <main className="main-content">
-        <div className="input-section">
-          <textarea
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="What global conflict is on your mind?"
-            className="conflict-input"
-            disabled={loading}
-            rows={2}
-          />
-          <div className="input-actions">
-            <button 
-              onClick={handleAnalyzeConflict} 
-              className="analyze-button"
-            >Is Peace Possible?
-            </button>
-          </div>
-        </div>
-
-        {error && (
-          <div className="error-message">
-            <h3>⚠️ Something went wrong</h3>
-            <p>{error}</p>
-          </div>
-        )}
-
-        {analysis && (
-          <div className="analysis-results">
-            {analysis.sentimentAnalysis && (
-              <div className="analysis-section">
-                <h3>Sentiment Analysis</h3>
-                <div className="sentiment-grid">
-                  {Object.entries(analysis.sentimentAnalysis).map(([emotion, value]) => (
-                    <div key={emotion} className="sentiment-item">
-                      <div className="sentiment-label">
-                        {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
-                      </div>
-                      <div className="sentiment-bar">
-                        <div 
-                          className="sentiment-fill" 
-                          style={{ width: `${value * 100}%` }}
-                        ></div>
-                      </div>
-                      <div className="sentiment-value">{(value * 100).toFixed(1)}%</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {analysis.perspectiveAnalysis && (
-              <div className="analysis-section">
-                <h3>Perspective Analysis</h3>
-                <div className="perspective-grid">
-                  {Object.entries(analysis.perspectiveAnalysis).map(([aspect, value]) => (
-                    <div key={aspect} className="perspective-item">
-                      <div className="perspective-label">
-                        {aspect.replace(/_/g, ' ').charAt(0).toUpperCase() + aspect.replace(/_/g, ' ').slice(1)}
-                      </div>
-                      <div className="perspective-bar">
-                        <div 
-                          className="perspective-fill" 
-                          style={{ width: `${value * 100}%` }}
-                        ></div>
-                      </div>
-                      <div className="perspective-value">{(value * 100).toFixed(1)}%</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {analysis.facts && (
-              <div className="analysis-section">
-                <h3>Summary of the Conflict</h3>
-                {analysis.facts.historical_background && analysis.facts.historical_background.length > 0 && (
-                  <div className="facts-subsection">
-                    <h4>Historical Background</h4>
-                    <p>{JSON.stringify(analysis.facts.historical_background)}</p>
-                  </div>
-                )}
-                {analysis.facts.current_issues_preventing_peace && analysis.facts.current_issues_preventing_peace.length > 0 && (
-                  <div className="facts-subsection">
-                    <h4>Current Issues Preventing Peace</h4>
-                    <p>{JSON.stringify(analysis.facts.current_issues_preventing_peace)}</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {analysis.possibility_of_peace && analysis.possibility_of_peace.length > 0 && (
-              <div className="analysis-section hope">
-                <h3>Possibility of Peace</h3>
-                <p>{JSON.stringify(analysis.possibility_of_peace)}</p>
-              </div>
-            )}
-
-            {analysis.optimal_path_forward && analysis.optimal_path_forward.length > 0 && (
-              <div className="analysis-section">
-                <h3>Optimal Path Forward</h3>
-                <p>{JSON.stringify(analysis.optimal_path_forward)}</p>
-              </div>
-            )}
-
-            {analysis.difficult_not_impossible && analysis.difficult_not_impossible.length > 0 && (
-              <div className="analysis-section">
-                <h3>Challenges that make Peace & Prosperity Difficult But Not Impossible</h3>
-                <p>{JSON.stringify(analysis.difficult_not_impossible)}</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        
-      </main>
-
-    </div>
-  );
+    <main>
+      <RouterProvider
+        router={ router }
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      />
+    </main>
+  )
 }
-
-export default App;
