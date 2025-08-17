@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 import { FcGlobe } from "react-icons/fc";
-import { Query } from './components/Query';
+import { Query } from "../components/Query";
 
 export const Home = () => {
   const [userInput, setUserInput] = useState('');
@@ -172,7 +172,7 @@ export const Home = () => {
         )}
 
         <Query userInput={userInput} setUserInput={setUserInput} handleAnalyzeConflict={handleAnalyzeConflict} />
-        
+
       </Container>
     </>
   );
