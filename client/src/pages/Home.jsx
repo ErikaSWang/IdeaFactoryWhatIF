@@ -5,11 +5,15 @@ import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 import { Query } from "../components/Query";
+import { Spinner } from "../components/Loading";
+import { Fresh } from "../components/Fresh";
 
 export const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [analysis, setAnalysis] = useState(null);
+  const [fresh, setFresh] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [returned, setReturned] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState(null);
 
@@ -18,8 +22,10 @@ export const Home = () => {
       setError('Please enter information about a conflict to analyze.');
       return;
     }
-
-    setLoading(true);
+    setTimeout(() => {
+      setLoading(true);
+    }, 500);
+    
     setError(null);
 
     try {
@@ -51,7 +57,6 @@ export const Home = () => {
   };
 
 
-
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && e.ctrlKey) {
       handleAnalyzeConflict();
@@ -60,10 +65,15 @@ export const Home = () => {
 
   return (
     <>
-      <Container className='d-flex flex-col align-content-between flex-wrap main-component'>
+      <Container className='d-flex flex-col justify-content-center align-content-between flex-wrap main-component'>
 
 
-        <Container className='d-flex flex-col output'>
+        <Container className='d-flex flex-col justify-content-center output'>
+          { loading ?
+            <Spinner />
+            :
+            <Fresh />
+          }
           {analysis && (
             <div className="analysis-results">
               {analysis.sentimentAnalysis && (

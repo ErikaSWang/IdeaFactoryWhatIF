@@ -17,12 +17,12 @@ export const Header = () => {
   }, [location.pathname]);
 
   return (
-    <>
+    <header>
       <Navbar className='d-flex justify-content-between align-items-end w-100 px-2'>
         <Navbar.Brand href="./" className=''>
           <img src='../public/logo.png' />
         </Navbar.Brand>
-        <Nav className='pb-3'>
+        <Nav className='pb-3 pe-1'>
           { isHome ?
             <Nav.Link href="/events">
               <FcGlobe className='icon'/>
@@ -34,6 +34,6 @@ export const Header = () => {
           }
         </Nav>
       </Navbar>
-    </>
+    </header>
   );
 }

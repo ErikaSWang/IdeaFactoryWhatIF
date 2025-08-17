@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 export const Query = ({ userInput, setUserInput, handleAnalyzeConflict }) => {
   
   return (
-    <>
+    <footer>
       <Container className="d-flex flex-column justify-content-center input-section">
         <textarea
           value={userInput}
@@ -20,6 +20,6 @@ export const Query = ({ userInput, setUserInput, handleAnalyzeConflict }) => {
           >Are Peace & Progress Possible?
           </Button>
       </Container>
-    </>
+    </footer>
   )
 }
