@@ -11,11 +11,15 @@ import { Fresh } from "../components/Fresh";
 export const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [analysis, setAnalysis] = useState(null);
-  const [fresh, setFresh] = useState(true);
+  const [fresh, setFresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [returned, setReturned] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    
+  }, []);
 
   const handleAnalyzeConflict = async () => {
     if (!userInput.trim()) {
@@ -74,93 +78,7 @@ export const Home = () => {
             :
             <Fresh />
           }
-          {analysis && (
-            <div className="analysis-results">
-              {analysis.sentimentAnalysis && (
-                <div className="analysis-section">
-                  <h3>Sentiment Analysis</h3>
-                  <div className="sentiment-grid">
-                    {Object.entries(analysis.sentimentAnalysis).map(([emotion, value]) => (
-                      <div key={emotion} className="sentiment-item">
-                        <div className="sentiment-label">
-                          {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
-                        </div>
-                        <div className="sentiment-bar">
-                          <div 
-                            className="sentiment-fill" 
-                            style={{ width: `${value * 100}%` }}
-                          ></div>
-                        </div>
-                        <div className="sentiment-value">{(value * 100).toFixed(1)}%</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {analysis.perspectiveAnalysis && (
-                <div className="analysis-section">
-                  <h3>Perspective Analysis</h3>
-                  <div className="perspective-grid">
-                    {Object.entries(analysis.perspectiveAnalysis).map(([aspect, value]) => (
-                      <div key={aspect} className="perspective-item">
-                        <div className="perspective-label">
-                          {aspect.replace(/_/g, ' ').charAt(0).toUpperCase() + aspect.replace(/_/g, ' ').slice(1)}
-                        </div>
-                        <div className="perspective-bar">
-                          <div 
-                            className="perspective-fill" 
-                            style={{ width: `${value * 100}%` }}
-                          ></div>
-                        </div>
-                        <div className="perspective-value">{(value * 100).toFixed(1)}%</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {analysis.facts && (
-                <div className="analysis-section">
-                  <h3>Summary of the Situation</h3>
-                  {analysis.facts.historical_background && analysis.facts.historical_background.length > 0 && (
-                    <div className="facts-subsection">
-                      <h4>Historical Background</h4>
-                      <p>{analysis.facts.historical_background}</p>
-                    </div>
-                  )}
-                  {analysis.facts.current_issues_preventing_peace && analysis.facts.current_issues_preventing_peace.length > 0 && (
-                    <div className="facts-subsection">
-                      <h4>Current Issues Preventing Peace</h4>
-                      <p>{analysis.facts.current_issues_preventing_peace}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-
-              {analysis.possibility_of_peace && analysis.possibility_of_peace.length > 0 && (
-                <div className="analysis-section hope">
-                  <h3>Possibility of Peace</h3>
-                  <p>{analysis.possibility_of_peace}</p>
-                </div>
-              )}
-
-              {analysis.optimal_path_forward && analysis.optimal_path_forward.length > 0 && (
-                <div className="analysis-section">
-                  <h3>Optimal Path Forward</h3>
-                  <p>{analysis.optimal_path_forward}</p>
-                </div>
-              )}
-
-              {analysis.difficult_not_impossible && analysis.difficult_not_impossible.length > 0 && (
-                <div className="analysis-section">
-                  <h3>Challenges that make Peace & Prosperity Difficult But Not Impossible</h3>
-                  <p>{analysis.difficult_not_impossible}</p>
-                </div>
-              )}
-            </div>
-          )}
+          
         </Container>
 
         {error && (

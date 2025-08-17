@@ -12,10 +12,10 @@ img {
 .conflict-input {
   width: 100%;
   min-height: 50px;
-  padding: 1.5rem;
+  padding: 1rem;
   border: 2px solid #e2e8f0;
-  border-radius: 15px;
-  font-size: 1rem;
+  border-radius: 1rem;
+  font-size: 1.1rem;
   font-family: inherit;
   resize: vertical;
   transition: all 0.3s ease;
@@ -90,9 +90,9 @@ img {
 section {
   width: 100%;
   height: auto;
-  font-size: 1.7rem;
-  line-height: 1.5rem;
-  color: #9a9a74;
+  font-size: 2rem;
+  line-height: 2.75rem;
+  color: #909a74;
   font-weight: 400;
   text-shadow: 0 0 10px rgb(74, 76, 89, 0.1);
 }
