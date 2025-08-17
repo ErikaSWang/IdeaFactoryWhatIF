@@ -97,6 +97,26 @@ section {
   text-shadow: 0 0 10px rgb(74, 76, 89, 0.1);
 }
 
+.suggestion-slideshow {
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transform: translateX(0);
+}
+
+.suggestion-slideshow.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.suggestion-slideshow.hidden {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
