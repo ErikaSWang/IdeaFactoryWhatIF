@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -9,12 +9,12 @@ import { FcGlobe } from "react-icons/fc";
 import { BiSolidHomeHeart } from "react-icons/bi";
 
 export const Header = () => {
-  const { page } = useParams();
+  const location = useLocation();
   const [isHome, setIsHome] = useState(true);
 
   useEffect(() => {
-    page === '/' ? setIsHome(true) : setIsHome(false)
-  }, [page]);
+    location.pathname === '/' ? setIsHome(true) : setIsHome(false)
+  }, [location.pathname]);
 
   return (
     <>
