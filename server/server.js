@@ -95,15 +95,15 @@ app.post('/api/analyze-conflict', async (req, res) => {
 
 Please use simple language.
 
-Please use the following JSON format for your response. Return only a single valid JSON object. No prose, no code fences, no comments, no trailing commas. For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
+Please use the following JSON format for your response. Return only a single valid JSON object. No prose, no code fences, no comments, no trailing commas. Where there are "" please return a string, and where there are [] please return an array. For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
 
 {
   "title": ""
   "conflict_identified": "",
-  "parties identified": "",
+  "parties identified": [],
   "facts": {
-    "historical_background": "",
-    "current_issues_preventing_peace": "",
+    "historical_background": [],
+    "current_issues_preventing_peace": [],
   },
   "realistic_trajectories": [],
   "new_options": [],
@@ -111,7 +111,7 @@ Please use the following JSON format for your response. Return only a single val
   "antagonists": "",
   "odds": "",
   "tools": {
-    "existing": "",
+    "existing": [],
     "new": []
   }
 }`;

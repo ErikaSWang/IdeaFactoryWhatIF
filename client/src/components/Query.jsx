@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 
-export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, onTextareaHeightChange }) => {
+export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, onTextareaHeightChange, response, setResponse }) => {
   const textareaRef = useRef(null);
   
   useEffect(() => {
@@ -29,18 +29,38 @@ export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, onTextar
   return (
     <footer>
       <Container className="d-flex flex-column justify-content-center input-section">
-        <textarea
-          ref={textareaRef}
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="A place to unload ... what's on your mind?"
-          className="conflict-input"
-        />
-          <Button 
-            onClick={handleAnalyzeConflict} 
-            className="shadow-lg analyze-button my-3"
-          >Are Peace & Progress Possible?
-          </Button>
+        { !response ?
+            <textarea
+              ref={textareaRef}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="A place to unload ... what's on your mind?"
+              className="conflict-input"
+            />
+        :
+            <textarea
+              ref={textareaRef}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Please feel free to ask another question."
+              className="conflict-input"
+            />
+        }
+        
+        { !response ?
+            <Button 
+              onClick={handleAnalyzeConflict} 
+              className="shadow-lg analyze-button my-3"
+            >Are Peace & Progress Possible?
+            </Button>
+         : 
+            <Button 
+              onClick={handleAnalyzeConflict} 
+              className="shadow-lg continue-button my-3"
+            >You've Got this ❤
+            </Button>
+        }
+          
       </Container>
     </footer>
   )

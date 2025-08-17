@@ -53,6 +53,26 @@ img {
   cursor: not-allowed;
   transform: none;
 }
+.continue-button {
+  background: linear-gradient(135deg, #3b469b 0%, #232f8b 75%, #30449c 100%);
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+.continue-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.continue-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 
 .input-hint {
   color: #a0aec0;
@@ -68,16 +88,35 @@ img {
   border-radius: 15px;
   margin: 1rem 0;
   box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+  z-index: 10;
 }
 
 .error-message h3 {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
-.output {
+.output, .scroll-box {
   height: 50vh;
   background: rgb(141, 141, 150, 0.1);
   padding: 2rem;
+}
+.scroll-box {
+  height: 50vh;
+  padding: 2rem;
+  overflow-y: scroll;
+}
+.scroll-box::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+.scroll-box::-webkit-scrollbar-track {
+  background: orange;        /* color of the tracking area */
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
 }
 .analysis-results {
   animation: fadeIn 0.6s ease-in;
@@ -345,7 +384,7 @@ section {
   .input-section {
     max-width: 50vw;
   }
-  .output {
+  .output, .scroll-box {
     max-width: 60vw;
   }
 }

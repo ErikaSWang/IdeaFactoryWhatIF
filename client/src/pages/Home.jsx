@@ -5,19 +5,27 @@ import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 import { Query } from "../components/Query";
-import { Spinner } from "../components/Loading";
 import { Fresh } from "../components/Fresh";
+import { Loading } from "../components/Loading";
+import { Response } from "../components/Response";
 
 export const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [fresh, setFresh] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [returned, setReturned] = useState(false);
+  const [response, setResponse] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState(null);
   const [textareaHeight, setTextareaHeight] = useState(0);
   const [outputHeight, setOutputHeight] = useState('50vh');
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFresh(true);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     const calculateOutputHeight = () => {
@@ -43,12 +51,15 @@ export const Home = () => {
     return () => window.removeEventListener('resize', calculateOutputHeight);
   }, [textareaHeight]);
 
+
+  
   const handleAnalyzeConflict = async () => {
     if (!userInput.trim()) {
       setError('Please enter information about a conflict to analyze.');
       return;
     }
     setTimeout(() => {
+      setFresh(false);
       setLoading(true);
     }, 500);
 
@@ -66,12 +77,13 @@ export const Home = () => {
       }
 
       const result = await response.json();
-
-
+      
+      setLoading(false);
       setAnalysis(result.analysis);
       setConversation(prevConversation => [
         ...prevConversation, {user: userInput, response: result.analysis}
       ])
+      setResponse(true);
       setUserInput('');
 
     } catch (error) {
@@ -83,11 +95,6 @@ export const Home = () => {
   };
 
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && e.ctrlKey) {
-      handleAnalyzeConflict();
-    }
-  };
 
   return (
     <>
@@ -98,12 +105,14 @@ export const Home = () => {
           className='d-flex flex-col justify-content-center output'
           style={{ height: outputHeight }}
         >
-          { loading ?
-            <Spinner />
-            :
-            <Fresh />
+          { fresh ?
+              <Fresh />
+            : 
+              loading ?
+                <Loading />
+              :
+                <Response analysis={analysis} />
           }
-
         </Container>
 
         {error && (
@@ -118,6 +127,8 @@ export const Home = () => {
           setUserInput={setUserInput} 
           handleAnalyzeConflict={handleAnalyzeConflict}
           onTextareaHeightChange={setTextareaHeight}
+          response={response}
+          setResponse={setResponse}
         />
 
       </Container>
