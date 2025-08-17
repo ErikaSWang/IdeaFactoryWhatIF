@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button';
 
 export const Spinner = () => {
+  const handleLoadError = () => {
+    console.log('Lottie animation failed to load');
+  };
+
   return (
-    <figure>
+    <figure className="spinner-container">
       <DotLottieReact
         src="https://lottie.host/fb02b621-4051-40ea-9171-59b228a75f30/LlzrXDpXcW.lottie"
-        loop
-        autoplay
+        loop={true}
+        autoplay={true}
         className="spinner"
+        onLoadError={handleLoadError}
       />
     </figure>
-  )
-}
+  );
+};
