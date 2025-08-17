@@ -75,9 +75,11 @@ img {
   margin-bottom: 0.5rem;
 }
 .output {
-  height: 50vh;
+  height: calc(100vh - 200px);
+  max-height: 50vh;
   background: rgb(141, 141, 150, 0.1);
   padding: 2rem;
+  overflow-y: auto;
 }
 .analysis-results {
   animation: fadeIn 0.6s ease-in;
