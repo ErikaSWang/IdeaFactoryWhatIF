@@ -22,15 +22,18 @@ export const Home = () => {
   useEffect(() => {
     const calculateOutputHeight = () => {
       const windowHeight = window.innerHeight;
-      const headerHeight = 100; // Approximate header height in pixels
-      const padding = 40; // General padding
-      const footerHeight = textareaHeight + 120; // Textarea + button + padding
+      const headerHeightVh = 20; // From index.css: header { height: 20vh; }
+      const footerMinHeightVh = 20; // From index.css: footer { min-height: 20vh; }
       
-      const availableHeight = windowHeight - headerHeight - footerHeight - padding;
-      const outputHeightVh = (availableHeight / windowHeight) * 100;
+      // Calculate actual footer height in vh
+      const footerHeightPx = textareaHeight + 120; // Textarea + button + padding
+      const footerActualVh = Math.max(footerMinHeightVh, (footerHeightPx / windowHeight) * 100);
       
-      // Ensure minimum height of 20vh and maximum of 60vh
-      const clampedHeight = Math.max(20, Math.min(60, outputHeightVh));
+      // Available space = 100vh - header - footer
+      const availableVh = 100 - headerHeightVh - footerActualVh;
+      
+      // Ensure minimum height of 15vh and maximum of 55vh
+      const clampedHeight = Math.max(15, Math.min(55, availableVh));
       setOutputHeight(`${clampedHeight}vh`);
     };
 
