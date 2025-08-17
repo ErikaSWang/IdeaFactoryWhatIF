@@ -89,7 +89,9 @@ export const Home = () => {
       setLoading(false);
       setAnalysis(result.analysis);
       setConversation(prevConversation => [
-        ...prevConversation, {user: userInput, response: result.analysis}
+        ...prevConversation, 
+        { type: 'user', input: userInput },
+        { type: 'system', analysis: result.analysis }
       ])
       setResponse(true);
       setUserInput('');
