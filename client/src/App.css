@@ -95,14 +95,13 @@ img {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
-.output, .scroll-box {
+.output {
   height: 50vh;
   background: rgb(141, 141, 150, 0.1);
   padding: 2rem;
 }
 .scroll-box {
   height: 50vh;
-  padding: 2rem;
   overflow-y: scroll;
 }
 .scroll-box::-webkit-scrollbar {
@@ -110,13 +109,13 @@ img {
 }
 
 .scroll-box::-webkit-scrollbar-track {
-  background: orange;        /* color of the tracking area */
+  background: rgb(88, 88, 101, 0.25);        /* color of the tracking area */
 }
 
 .scroll-box::-webkit-scrollbar-thumb {
-  background-color: blue;    /* color of the scroll thumb */
+  background-color: #7fa735;    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
-  border: 3px solid orange;  /* creates padding around scroll thumb */
+  border: 3px solid #658c1d;  /* creates padding around scroll thumb */
 }
 .analysis-results {
   animation: fadeIn 0.6s ease-in;
@@ -167,28 +166,29 @@ section {
   }
 }
 
-.analysis-results h2 {
-  color: #4a5568;
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-}
-
-.analysis-section {
-  background: #f7fafc;
+.user-input {
+  background: #b9cfe4;
   margin: 1.5rem 0;
-  padding: 1.5rem;
-  border-radius: 15px;
-  border-left: 4px solid #667eea;
+  padding: 1.5rem 3rem 1.5rem 1.5rem;
+  border-radius: 1em;
+  border-right: 4px solid #667eea;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
 
+.analysis-section {
+  background: #f0f2f4;
+  margin: 1.5rem 0;
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  border-radius: 1em;
+  border-left: 4px solid #5ea01c;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
 .analysis-section:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 .analysis-section h3 {
   color: #2d3748;
   margin-top: 0;
