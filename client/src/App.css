@@ -350,6 +350,21 @@ section {
   }
 }
 
+/* Dynamic height adjustments for output container */
+.output {
+  height: 60vh;
+  overflow-y: auto;
+  transition: height 0.3s ease;
+}
+
+.output.textarea-expanded {
+  height: 40vh;
+}
+
+.conflict-input {
+  max-height: 30vh;
+}
+
 /* Loading animation */
 .analyze-button:disabled {
   position: relative;

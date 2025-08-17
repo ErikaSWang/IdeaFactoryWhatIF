@@ -73,7 +73,7 @@ export const Home = () => {
       <Container className='d-flex flex-col justify-content-center align-content-between flex-wrap main-component'>
 
 
-        <Container className='d-flex flex-col justify-content-center output'>
+        <Container className={`d-flex flex-col justify-content-center output ${textareaHeight > 100 ? 'textarea-expanded' : ''}`}>
           { loading ?
             <Spinner />
             :
@@ -89,7 +89,12 @@ export const Home = () => {
           </div>
         )}
 
-        <Query userInput={userInput} setUserInput={setUserInput} handleAnalyzeConflict={handleAnalyzeConflict} />
+        <Query 
+          userInput={userInput} 
+          setUserInput={setUserInput} 
+          handleAnalyzeConflict={handleAnalyzeConflict}
+          onTextareaHeightChange={setTextareaHeight}
+        />
 
       </Container>
     </>
