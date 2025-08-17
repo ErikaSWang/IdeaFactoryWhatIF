@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav';
@@ -7,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 
 
 export const System = ({conversation}) => {
+  const analysis = conversation.analysis || conversation.response;
+  
   return (
     <>
             {analysis && (

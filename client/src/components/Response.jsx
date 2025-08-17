@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav';
@@ -13,11 +14,11 @@ export const Response = ({conversation}) => {
     <>
       <div className='scroll-box'>
         <Container>
-          {conversation.map((conversation, index) =>
-            Object.entries === 'user' ?
-              <User key={index} conversation={conversation} />
+          {conversation.map((item, index) =>
+            item.type === 'user' ?
+              <User key={index} conversation={item} />
             :
-              <System key={index} conversation={conversation} />
+              <System key={index} conversation={item} />
           )}
         </Container>
       </div>
