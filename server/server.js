@@ -52,7 +52,11 @@ app.use(cors({
     'http://172.31.107.66',
     'http://172.31.107.66:5173',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
-    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173'
+    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
+    'https://vibecoding4All.replit.app',
+    'https://vibecoding4All.replit.app:5173',
+    'https://IdeaFactoryWhatIF.replit.app',
+    'https://IdeaFactoryWhatIF.replit.app:5173',
   ],
   credentials: true
 }));

@@ -1,5 +1,5 @@
 export const suggestions = [
-  "Is coding still a good college major in 2025?",
+  "Is Computer Science still a good college major in 2025?",
   "My burger shop is struggling. Traffic is down, and costs are up.",
   "What's the future for the US economy?",
   "Is flooding on the rise? How can I prepare?",

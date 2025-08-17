@@ -15,12 +15,12 @@ img {
   padding: 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 1rem;
-  font-size: 1.1rem;
-  font-family: inherit;
+  font-size: 1.15rem;
   resize: vertical;
   transition: all 0.3s ease;
   background: #fafafa;
   field-sizing: content;
+  color: #0f3371;
 }
 
 .conflict-input:focus {
@@ -29,8 +29,7 @@ img {
 }
 
 .conflict-input::placeholder {
-  color: #a0aec0;
-  line-height: 1.5;
+  color: #6a788a;
 }
 
 .analyze-button {
@@ -95,6 +94,7 @@ section {
   color: #909a74;
   font-weight: 400;
   text-shadow: 0 0 10px rgb(74, 76, 89, 0.1);
+
 }
 
 .suggestion-slideshow {
