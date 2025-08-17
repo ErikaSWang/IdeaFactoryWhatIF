@@ -4,7 +4,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
-import { FcGlobe } from "react-icons/fc";
 import { Query } from "../components/Query";
 
 export const Home = () => {
@@ -61,16 +60,6 @@ export const Home = () => {
 
   return (
     <>
-      <Navbar className='d-flex justify-content-between align-items-end w-100 px-2'>
-        <Navbar.Brand href="./" className=''>
-          <img src='../public/logo.png' />
-        </Navbar.Brand>
-        <Nav className='pb-3'>
-          <Nav.Link href="/">
-            <FcGlobe className='icon'/>
-          </Nav.Link>
-        </Nav>
-      </Navbar>
       <Container className='d-flex flex-col align-content-between flex-wrap main-component'>
 
 

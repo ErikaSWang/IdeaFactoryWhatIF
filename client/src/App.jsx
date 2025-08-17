@@ -3,15 +3,16 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import { Root } from './components/Root';
 import { Home } from './pages/Home';
 import { Events } from './pages/Events';
+import './App.css'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={ <Root /> }>
     <Route index element={ <Home /> } />
-    <Route path="events" element={ <Events /> } />
+    <Route path="/events" element={ <Events /> } />
   </Route>
 ));
 
-export default function App() {
+export const App = () => {
   return (
     <main>
       <RouterProvider

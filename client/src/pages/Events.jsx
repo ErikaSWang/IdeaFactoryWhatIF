@@ -16,15 +16,11 @@ export const Events = () => {
       <Container className='d-flex flex-col align-content-between flex-wrap main-component'>
 
         <Container className='d-flex flex-col output'>
-          
+          <Card>
+
+          </Card>
         </Container>
 
-        {error && (
-          <div className="error-message">
-            <h3>Something went wrong</h3>
-            <p>{error}</p>
-          </div>
-        )}
 
       </Container>
     </>

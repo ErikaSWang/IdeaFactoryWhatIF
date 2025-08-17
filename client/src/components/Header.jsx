@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
+import { FcGlobe } from "react-icons/fc";
+import { BiSolidHomeHeart } from "react-icons/bi";
 
 export const Header = () => {
+  const { page } = useParams();
+  const [isHome, setIsHome] = useState(true);
+
+  useEffect(() => {
+    page === '/' ? setIsHome(true) : setIsHome(false)
+  }, [page]);
 
   return (
     <>
@@ -14,9 +23,15 @@ export const Header = () => {
           <img src='../public/logo.png' />
         </Navbar.Brand>
         <Nav className='pb-3'>
-          <Nav.Link href="/events">
-            <FcGlobe className='icon'/>
-          </Nav.Link>
+          { isHome ?
+            <Nav.Link href="/events">
+              <FcGlobe className='icon'/>
+            </Nav.Link>
+          : 
+            <Nav.Link href="/">
+              <BiSolidHomeHeart className='icon home'/>
+            </Nav.Link>
+          }
         </Nav>
       </Navbar>
     </>

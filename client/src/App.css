@@ -13,6 +13,10 @@ img {
   width: 3em;
 }
 
+.home {
+  color: #5475a6;
+}
+
 .conflict-input {
   width: 100%;
   min-height: 50px;
