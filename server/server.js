@@ -57,15 +57,20 @@ pool.query(`
 app.use(cors({
   origin: [
     'http://localhost',
-      'http://localhost:5173',
-      'http://172.31.122.226',
-      'http://172.31.122.226:5173',
-      'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
-      'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
-      'https://vibecoding4All.replit.app',
-      'https://vibecoding4All.replit.app:5173',
-      'https://IdeaFactoryWhatIF.replit.app',
-      'https://IdeaFactoryWhatIF.replit.app:5173',
+    'http://localhost:5173',
+    'http://172.31.122.226',
+    'http://172.31.122.226:5173',
+    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
+    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
+    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000',
+    'https://vibecoding4All.replit.app',
+    'https://vibecoding4All.replit.app:5173',
+    'https://vibecoding4All.replit.app:3000',
+    'https://IdeaFactoryWhatIF.replit.app',
+    'https://IdeaFactoryWhatIF.replit.app:5173',
+    'https://IdeaFactoryWhatIF.replit.app:3000',
+    /.*\.replit\.dev$/,
+    /.*\.replit\.app$/
   ],
   credentials: true
 }));
