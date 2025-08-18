@@ -397,7 +397,7 @@ app.get('/api/public', async (req, res) => {
 });
 
 // Serve the React app for any other routes (SPA routing) - MUST be last
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
