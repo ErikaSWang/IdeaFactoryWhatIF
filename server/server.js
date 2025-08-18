@@ -178,9 +178,9 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
 }
 </format of response>
 `;
-
+    
     const client = new OpenAI()
-
+    
     const completion = await client.responses.create({
       model: "gpt-5-nano",
       reasoning: {
@@ -253,7 +253,7 @@ app.post('/api/follow-up', async (req, res) => {
       content: userInput
     }
   ];
-
+  
 
   try {
     const systemPrompt = `
@@ -367,7 +367,7 @@ app.get('/api/conflicts', async (req, res) => {
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
-
+  
   try {
     // Parse the AI response to get just the tools
     const analysisData = JSON.parse(history[1].content);
@@ -395,6 +395,15 @@ app.get('/api/public', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/events', async (req, res) => {
+  try {
+
+    res.sendFile(path.join(__dirname, '../client/dist/events'));
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 
