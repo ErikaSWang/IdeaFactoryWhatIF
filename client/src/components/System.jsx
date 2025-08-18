@@ -20,18 +20,18 @@ export const System = ({item}) => {
                     )}
 
                     {analysis["parties identified"] && analysis["parties identified"].length > 0 && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Parties Involved</h3>
                         <ul>
                           {analysis["parties identified"].map((party, index) => (
                             <li key={index}>{party}</li>
                           ))}
                         </ul>
-                      </div>
+                      </>
                     )}
 
                     {analysis.facts && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Summary of the Situation</h3>
                         {analysis.facts.historical_background && analysis.facts.historical_background.length > 0 && (
                           <div className="facts-subsection">
@@ -53,54 +53,54 @@ export const System = ({item}) => {
                             </ul>
                           </div>
                         )}
-                      </div>
+                      </>
                     )}
 
                     {analysis.realistic_trajectories && analysis.realistic_trajectories.length > 0 && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Realistic Trajectories</h3>
                         <ul>
                           {analysis.realistic_trajectories.map((trajectory, index) => (
                             <li key={index}>{trajectory}</li>
                           ))}
                         </ul>
-                      </div>
+                      </>
                     )}
 
                     {analysis.new_options && analysis.new_options.length > 0 && (
-                      <div className="analysis-section hope">
+                      <>
                         <h3>New Options & Possibilities</h3>
                         <ul>
                           {analysis.new_options.map((option, index) => (
                             <li key={index}>{option}</li>
                           ))}
                         </ul>
-                      </div>
+                      </>
                     )}
 
                     {analysis.healing_needed && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Healing & Mindset Shifts Needed</h3>
                         <p>{analysis.healing_needed}</p>
-                      </div>
+                      </>
                     )}
 
                     {analysis.antagonists && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Potential Resistance</h3>
                         <p>{analysis.antagonists}</p>
-                      </div>
+                      </>
                     )}
 
                     {analysis.odds && (
-                      <div className="analysis-section hope">
+                      <>
                         <h3>Possibility of Peace & Progress</h3>
                         <p>Assessment: {typeof analysis.odds === 'number' ? `${Math.round(analysis.odds * 100)}%` : analysis.odds}</p>
-                      </div>
+                      </>
                     )}
 
                     {analysis.tools && (
-                      <div className="analysis-section">
+                      <>
                         <h3>Tools & Technology Solutions</h3>
                         {analysis.tools.existing && analysis.tools.existing.length > 0 && (
                           <div className="tools-subsection">
@@ -122,7 +122,7 @@ export const System = ({item}) => {
                             </ul>
                           </div>
                         )}
-                      </div>
+                      </>
                     )}
                 </div> 
             </div>
