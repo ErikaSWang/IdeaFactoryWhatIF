@@ -49,7 +49,7 @@ pool.query(`
   CREATE TABLE IF NOT EXISTS public (
     id SERIAL PRIMARY KEY,
     user_input TEXT NOT NULL,
-    tools JSONB
+    tools JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `).catch(err => console.error('Error creating public table:', err));
@@ -359,8 +359,8 @@ app.post('/api/share', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'INSERT INTO public (userInput, tools) VALUES ($1, $2) RETURNING *',
-      [user_input, tools]
+      'INSERT INTO public (user_input, tools) VALUES ($1, $2) RETURNING *',
+      [userInput, tools]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
