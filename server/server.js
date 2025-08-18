@@ -45,6 +45,15 @@ pool.query(`
   )
 `).catch(err => console.error('Error creating conflicts table:', err));
 
+pool.query(`
+  CREATE TABLE IF NOT EXISTS public (
+    id SERIAL PRIMARY KEY,
+    user_input TEXT NOT NULL,
+    tools JSONB
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`).catch(err => console.error('Error creating public table:', err));
+
 app.use(cors({
   origin: [
     'http://localhost',
@@ -70,7 +79,9 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-// Input endpoint
+let history = [];
+
+// Input endpoint #1
 app.post('/api/analyze-conflict', async (req, res) => {
   console.log('Request received');
   const { userInput } = req.body;
@@ -78,6 +89,14 @@ app.post('/api/analyze-conflict', async (req, res) => {
   if (!userInput) {
     return res.status(400).json({ error: 'User input is required' });
   }
+
+  // Add the user input to the history
+  history = [
+    {
+      role: "user",
+      content: userInput
+    }
+  ];
 
   try {
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
@@ -98,7 +117,12 @@ Please use simple language.
 <format of response>
 And return a single valid JSON object - it MUST be a single valid JSON object ... no prose, no code fences, no comments, no trailing commas. 
 
-Where there are "" please return a string, and where there are [] please return an array. For the existing tools, please use key:value pairs for the tool, and the url to the tool. For the new tools, please use key:value pairs for the tool, and whether it is buildable right now (yes/no).
+Where there are "" please return a string, and where there are [] please return an array.
+
+- For the realistic trajectories, please use key:value pairs for the name, description, and likelihood
+- For the new options, please use key:value pairs for the name, description, and likelihood
+- For the existing tools, please use key:value pairs for the tool, and the url to the tool
+- For the new tools, please use key:value pairs for the tool, and whether it is buildable (right now - yes/no)
 
 For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
 
@@ -111,14 +135,32 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
     "historical_background": [],
     "current_issues_preventing_peace": [],
   },
-  "realistic_trajectories": [],
-  "new_options": [],
+  "realistic_trajectories": [
+    {
+      "name": "",
+      "description": "",
+      "likelihood": 0.0
+    }
+  ],
+  "new_options": [
+    {
+      "name": "",
+      "description": "",
+      "likelihood": 0.0
+    }
+  ],
   "healing_needed": "",
   "antagonists": "",
   "odds": "",
   "tools": {
-    "existing": [],
-    "new": []
+    "existing": [
+      "tool": "",
+      "url": ""
+    ],
+    "new": [
+      "tool": "",
+      "buildable": ""
+    ]
   }
 }
 </format of response>
@@ -153,6 +195,104 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
     } catch (parseError) {
       console.log('Failed to parse JSON, using text response');
     }
+
+    // Add the response to the history
+    history = [
+        ...history,
+      {
+        role: "assistant",
+        content: aiResponse
+      }
+    ];
+
+    // Save conversation to database
+    const insertResult = await pool.query(
+      'INSERT INTO conversations (user_input, analysis, ai_response) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, analysis, aiResponse]
+    );
+
+    res.json({
+      analysis: analysis,
+      conversationId: insertResult.rows[0].id,
+      timestamp: insertResult.rows[0].created_at
+    });
+
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    res.status(500).json({ 
+      error: 'Failed to analyze conflict',
+      details: error.message 
+    });
+  }
+});
+
+// Input endpoint #1
+app.post('/api/follow-up', async (req, res) => {
+  console.log('Request received');
+  const { userInput } = req.body;
+
+  if (!userInput) {
+    return res.status(400).json({ error: 'User input is required' });
+  }
+
+  history = [
+      ...history,
+    {
+      role: "user",
+      content: userInput
+    }
+  ];
+  
+
+  try {
+    const systemPrompt = `
+
+Please use simple language.
+
+<format of response>
+And return a single valid JSON object - it MUST be a single valid JSON object ... no prose, no code fences, no comments, no trailing commas. 
+
+Where there are "" please return a string, and where there are [] please return an array.
+
+{
+  "more_kindness_understanding_compassion": "",
+  "response": ""
+}
+</format of response>
+`;
+
+    const client = OpenAI()
+
+    const completion = await client.responses.create({
+      model: "gpt-5-nano",
+      reasoning: {
+        effort: "low"
+      },
+      text: {
+        verbosity: "low"
+      },
+      instructions: systemPrompt,
+      input: history
+    });
+
+    const aiResponse = completion.output_text;
+    console.log('AI response:', aiResponse)
+    let analysis = {};
+
+    try {
+      analysis = JSON.parse(aiResponse);
+    } catch (parseError) {
+      console.log('Failed to parse JSON, using text response');
+    }
+
+    // Add the response to the history
+    history = [
+        ...history,
+      {
+        role: "assistant",
+        content: aiResponse
+      }
+    ];
 
     // Save conversation to database
     const insertResult = await pool.query(
@@ -206,6 +346,32 @@ app.post('/api/save-conflict', async (req, res) => {
 app.get('/api/conflicts', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM conflicts ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Save share to database
+app.post('/api/share', async (req, res) => {
+  const userInput = history[0].content;
+  const tools = history[1].content.tools;
+
+  try {
+    const result = await pool.query(
+      'INSERT INTO public (userInput, tools) VALUES ($1, $2) RETURNING *',
+      [user_input, tools]
+    );
+    res.json({ message: 'Share saved successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all conflicts
+app.get('/api/public', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM public ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });

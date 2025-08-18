@@ -15,7 +15,6 @@ export const Loading = () => {
 
   return (
     <figure className="d-flex justify-content-center align-items-center spinner-container">
-      <Suspense fallback={<div>Loading animation...</div>}>
         <DotLottieReact
           src="https://lottie.host/fb02b621-4051-40ea-9171-59b228a75f30/LlzrXDpXcW.lottie"
           loop={true}
@@ -23,7 +22,6 @@ export const Loading = () => {
           className="spinner"
           onLoadError={handleLoadError}
         />
-      </Suspense>
     </figure>
   );
 };

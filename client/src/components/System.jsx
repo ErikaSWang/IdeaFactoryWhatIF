@@ -16,19 +16,59 @@ export const System = ({item}) => {
     alert(`Creating ${toolName}...`);
   };
 
+  const Share = async () => {
+
+    try {
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      /*
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput }),
+      });
+      */
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+    } catch (error) {
+      console.error('Error sharing:', error);
+      setError(`Error: ${error.message}. Please notify the administrator.`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
         {analysis && (
             <div className="analysis-results">
                 <div className="analysis-section">
+                    {analysis.more_kindness_understanding_compassion && (
+                      <div className="kindness-section">
+                        <p><strong>💙 A message of support:</strong> {analysis.more_kindness_understanding_compassion}</p>
+                      </div>
+                    )}
+
+                    {analysis.response && (
+                      <div className="conflict-section">
+                        <p>{analysis.response}</p>
+                      </div>
+                    )}
+                  
                     {analysis.show_kindness_understanding_compassion && (
-                      <div className="kindness-section" style={{backgroundColor: '#f8f9fa', padding: '15px', marginBottom: '20px', borderRadius: '8px', borderLeft: '4px solid #28a745'}}>
-                        <p><strong>💚 A message of support:</strong> {analysis.show_kindness_understanding_compassion}</p>
+                      <div className="kindness-section">
+                        <p><strong>💙 A message of support:</strong> {analysis.show_kindness_understanding_compassion}</p>
                       </div>
                     )}
 
                     {analysis.title && (
-                      <h2 style={{marginBottom: '20px', color: '#2c3e50'}}>{analysis.title}</h2>
+                      <h2 className='response-title'>{analysis.title}</h2>
                     )}
 
                     {analysis.conflict_identified && (
@@ -80,12 +120,12 @@ export const System = ({item}) => {
                         <h3>Realistic Trajectories</h3>
                         <div className="trajectories-list">
                           {analysis.realistic_trajectories.map((trajectory, index) => (
-                            <div key={index} className="trajectory-item" style={{marginBottom: '15px', padding: '10px', border: '1px solid #dee2e6', borderRadius: '5px'}}>
+                            <div key={index} className="trajectory-item">
                               {typeof trajectory === 'string' ? (
                                 <p>{trajectory}</p>
                               ) : (
                                 <>
-                                  <h5>{trajectory.name}</h5>
+                                  <h4 className="facts-subsection">{trajectory.name}</h4>
                                   <p>{trajectory.description}</p>
                                   {trajectory.likelihood && (
                                     <small className="text-muted">Likelihood: {Math.round(trajectory.likelihood * 100)}%</small>
@@ -103,13 +143,16 @@ export const System = ({item}) => {
                         <h3>New Options & Possibilities</h3>
                         <div className="new-options-list">
                           {analysis.new_options.map((option, index) => (
-                            <div key={index} className="option-item" style={{marginBottom: '15px', padding: '10px', border: '1px solid #dee2e6', borderRadius: '5px'}}>
+                            <div key={index} className="option-item">
                               {typeof option === 'string' ? (
                                 <p>{option}</p>
                               ) : (
                                 <>
-                                  <h5>{option.tool}</h5>
-                                  {option.how_it_helps && <p>{option.how_it_helps}</p>}
+                                    <h4 className="facts-subsection">{option.name}</h4>
+                                    <p>{option.description}</p>
+                                    {option.likelihood && (
+                                      <small className="text-muted">Likelihood: {Math.round(option.likelihood * 100)}%</small>
+                                    )}
                                 </>
                               )}
                             </div>
@@ -147,7 +190,7 @@ export const System = ({item}) => {
                             <h4>Existing Tools</h4>
                             <div className="existing-tools-list">
                               {analysis.tools.existing.map((tool, index) => (
-                                <div key={index} className="tool-item" style={{marginBottom: '10px', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '5px'}}>
+                                <div key={index} className="existing-tool">
                                   {typeof tool === 'string' ? (
                                     <span>{tool}</span>
                                   ) : (
@@ -170,15 +213,15 @@ export const System = ({item}) => {
                             <h4>New Tool Ideas</h4>
                             <div className="new-tools-list">
                               {analysis.tools.new.map((tool, index) => (
-                                <div key={index} className="tool-item" style={{marginBottom: '10px', padding: '8px', backgroundColor: '#e8f5e8', borderRadius: '5px'}}>
+                                <div key={index} className="new-tool">
                                   {typeof tool === 'string' ? (
                                     <span>{tool}</span>
                                   ) : (
                                     <div className="d-flex justify-content-between align-items-center">
                                       <span>{tool.tool}</span>
-                                      {tool.buildable_now === 'yes' && (
-                                        <Button 
-                                          variant="success" 
+                                      {tool.buildable === 'yes' && (
+                                        <Button
+                                          variant="primary" 
                                           size="sm"
                                           onClick={() => handleCreateTool(tool.tool)}
                                         >
@@ -195,6 +238,7 @@ export const System = ({item}) => {
                       </>
                     )}
                 </div>
+                <Button variant="alert" className="d-flex justify-content-right save" onClick={Share}>Share with the World</Button>
             </div>
         )}
     </>

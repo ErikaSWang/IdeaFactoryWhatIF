@@ -104,6 +104,51 @@ export const Home = () => {
     }
   };
 
+  const handleFollowUp = async () => {
+    if (!userInput.trim()) {
+      setError('Please enter information about a conflict to analyze.');
+      return;
+    }
+
+    setError(null);
+
+    try {
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/follow-up', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput }),
+      });
+
+      /*
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/follow-up', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput }),
+      });
+      */
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      setAnalysis(result.analysis);
+      setConversation(prevConversation => [
+        ...prevConversation, 
+        { type: 'user', input: userInput },
+        { type: 'system', analysis: result.analysis }
+      ])
+      setUserInput('');
+
+    } catch (error) {
+      console.error('Error analyzing conflict:', error);
+      setError(`Error: ${error.message}. Please notify the administrator.`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     console.log('conversation:', conversation)
   }, [conversation])
@@ -139,6 +184,7 @@ export const Home = () => {
           userInput={userInput} 
           setUserInput={setUserInput} 
           handleAnalyzeConflict={handleAnalyzeConflict}
+          handleFollowUp={handleFollowUp}
           onTextareaHeightChange={setTextareaHeight}
           response={response}
           setResponse={setResponse}

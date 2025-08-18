@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 
-export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, onTextareaHeightChange, response, setResponse }) => {
+export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, handleFollowUp, onTextareaHeightChange, response, setResponse }) => {
   const textareaRef = useRef(null);
   
   useEffect(() => {
@@ -55,7 +55,7 @@ export const Query = ({ userInput, setUserInput, handleAnalyzeConflict, onTextar
             </Button>
          : 
             <Button 
-              onClick={handleAnalyzeConflict} 
+              onClick={handleFollowUp} 
               className="shadow-lg continue-button my-3"
             >You've Got this ❤
             </Button>
