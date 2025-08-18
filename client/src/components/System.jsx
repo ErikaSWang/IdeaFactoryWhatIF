@@ -21,7 +21,7 @@ export const System = ({item}) => {
 
   const Share = async () => {
     try {
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/share', {
+      const response = await fetch('/api/share', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
