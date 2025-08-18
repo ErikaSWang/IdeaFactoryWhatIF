@@ -7,6 +7,8 @@ const OpenAI = require('openai');
 //const { Agent, run, tool } = require('@openai/agents');
 
 const app = express();
+const PORT = process.env.PORT || 5000
+
 const pool = new Pool({
   user: process.env['PGUSER'],
   host: process.env['PGHOST'],
@@ -19,9 +21,7 @@ const pool = new Pool({
   }
 });
 
-const openai = new OpenAI({
-  apiKey: process.env['OPENAI_API_KEY']
-});
+
 
 // Create tables if not exist
 pool.query(`
@@ -64,9 +64,6 @@ app.use(cors({
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000',
-    'https://vibecoding4All.replit.app',
-    'https://vibecoding4All.replit.app:5173',
-    'https://vibecoding4All.replit.app:3000',
     'https://IdeaFactoryWhatIF.replit.app',
     'https://IdeaFactoryWhatIF.replit.app:5173',
     'https://IdeaFactoryWhatIF.replit.app:3000',
@@ -81,10 +78,10 @@ app.use(bodyParser.json());
 // Serve static files from client/dist
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Serve the React app for any other routes (SPA routing)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+const openai = new OpenAI({
+  apiKey: process.env['OPENAI_API_KEY']
 });
+
 
 app.get('/', (req, res) => {
   res.send('Server is running!');
@@ -401,15 +398,26 @@ app.get('/api/public', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+app.get('/events', async (req, res) => {
+  try {
+
+    res.sendFile(path.join(__dirname, '../client/dist/events'));
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// custom 404
+app.use((req, res, next) => {
+  res.status(404).send("Sorry can't find that!")
+})
+
+// custom error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log('=================================');
-  console.log(`Conflict Resolution AI Server running on port ${PORT}`);
-  console.log('Environment variables:');
-  console.log('PGUSER:', process.env.PGUSER);
-  console.log('PGHOST:', process.env.PGHOST);
-  console.log('PGDATABASE:', process.env.PGDATABASE);
-  console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
-  console.log('=================================');
+  console.log(`Server running on port ${PORT}`);
 });
