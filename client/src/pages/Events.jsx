@@ -96,16 +96,24 @@ export const Events = () => {
                       <div className="mb-3">
                         <h6>🔧 Existing Tools:</h6>
                         <ul className="list-unstyled">
-                          {share.tools.existing.slice(0, 3).map((tool, toolIndex) => (
-                            <li key={toolIndex} className="small">
-                              • {tool.tool}
+                          {share.tools.existing.map((tool, toolIndex) => (
+                            <li key={toolIndex} className="small mb-1">
+                              <div className="d-flex justify-content-between align-items-center">
+                                <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
+                                {typeof tool === 'object' && tool.url && (
+                                  <a 
+                                    href={tool.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="btn btn-xs btn-outline-primary"
+                                    style={{ fontSize: '0.7rem', padding: '0.1rem 0.3rem' }}
+                                  >
+                                    Visit
+                                  </a>
+                                )}
+                              </div>
                             </li>
                           ))}
-                          {share.tools.existing.length > 3 && (
-                            <li className="small text-muted">
-                              + {share.tools.existing.length - 3} more tools
-                            </li>
-                          )}
                         </ul>
                       </div>
                     )}
@@ -114,31 +122,53 @@ export const Events = () => {
                       <div className="mb-3">
                         <h6>💡 New Tool Ideas:</h6>
                         <ul className="list-unstyled">
-                          {share.tools.new.slice(0, 2).map((tool, toolIndex) => (
-                            <li key={toolIndex} className="small">
-                              • {tool.tool} 
-                              {tool.buildable === 'yes' && <span className="text-success"> ✓</span>}
+                          {share.tools.new.map((tool, toolIndex) => (
+                            <li key={toolIndex} className="small mb-1">
+                              <div className="d-flex justify-content-between align-items-center">
+                                <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
+                                <div>
+                                  {typeof tool === 'object' && tool.buildable === 'yes' && (
+                                    <span className="text-success small">✓ Buildable</span>
+                                  )}
+                                </div>
+                              </div>
                             </li>
                           ))}
-                          {share.tools.new.length > 2 && (
-                            <li className="small text-muted">
-                              + {share.tools.new.length - 2} more ideas
-                            </li>
-                          )}
                         </ul>
                       </div>
                     )}
 
-                    <div className="mt-auto">
-                      <Button 
-                        variant="outline-primary" 
-                        size="sm" 
-                        href="/"
-                        className="w-100"
-                      >
-                        Start Your Own Analysis
-                      </Button>
-                    </div>
+                    {share.analysis && share.analysis.trajectories && share.analysis.trajectories.length > 0 && (
+                      <div className="mb-3">
+                        <h6>📈 Realistic Trajectories:</h6>
+                        <ul className="list-unstyled">
+                          {share.analysis.trajectories.map((trajectory, trajIndex) => (
+                            <li key={trajIndex} className="small mb-1">
+                              • {typeof trajectory === 'string' ? trajectory : trajectory.name}
+                              {typeof trajectory === 'object' && trajectory.likelihood && (
+                                <span className="text-muted"> ({Math.round(trajectory.likelihood * 100)}%)</span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {share.analysis && share.analysis.options && share.analysis.options.length > 0 && (
+                      <div className="mb-3">
+                        <h6>🔄 New Options:</h6>
+                        <ul className="list-unstyled">
+                          {share.analysis.options.map((option, optIndex) => (
+                            <li key={optIndex} className="small mb-1">
+                              • {typeof option === 'string' ? option : option.name}
+                              {typeof option === 'object' && option.likelihood && (
+                                <span className="text-muted"> ({Math.round(option.likelihood * 100)}%)</span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </Card.Body>
                 </Card>
               </Col>
