@@ -75,9 +75,6 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-// Serve static files from client/dist
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
 const openai = new OpenAI({
   apiKey: process.env['OPENAI_API_KEY']
 });
@@ -398,13 +395,12 @@ app.get('/api/public', async (req, res) => {
   }
 });
 
-app.get('/events', async (req, res) => {
-  try {
+// Serve static files from client/dist (must be after API routes)
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    res.sendFile(path.join(__dirname, '../client/dist/events'));
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+// Serve React app for any non-API routes (catch-all)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // custom 404
