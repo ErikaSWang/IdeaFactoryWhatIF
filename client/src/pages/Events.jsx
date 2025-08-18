@@ -71,78 +71,81 @@ export const Events = () => {
 
         {publicShares.length === 0 ? (
             <>
-              <H5>No Shared Analyses Yet</H5>
+              <h5>No Shared Analyses Yet</h5>
               <p>Be the first to share your conflict analysis with the world!</p>
             </>
         ) : (
+            <Row>
+              {publicShares.map((share, index) => (
+                <Col key={share.id || index} md={4} className="mb-4">
+                  <Card className="h-100 bg-secondary shadow-lg">        
+                    <Card.Header className="text-truncate" title={share.user_input}>
+                      {share.user_input.length > 60 
+                        ? `${share.user_input.substring(0, 60)}...` 
+                        : share.user_input
+                      }
+                    </Card.Header>
+                    <Card.Body className="d-flex flex-column">
+                      <Card.Text className="text-muted small">
+                        Shared on {new Date(share.created_at).toLocaleDateString()}
+                      </Card.Text>
 
-            {publicShares.map((share, index) => (
-                <Card className="h-100 w-50  bg-secondary shadow-lg">        
-                  <Card.Header className="text-truncate" title={share.user_input}>
-                    {share.user_input.length > 60 
-                      ? `${share.user_input.substring(0, 60)}...` 
-                      : share.user_input
-                    }
-                  </Card.Header>
-                  <Card.Body className="d-flex flex-column">
-                    <Card.Text className="text-muted small">
-                      Shared on {new Date(share.created_at).toLocaleDateString()}
-                    </Card.Text>
-
-                    {share.tools && share.tools.existing && share.tools.existing.length > 0 && (
-                      <div className="mb-3">
-                        <h6>Existing Tools:</h6>
-                        <ul className="list-unstyled">
-                          {share.tools.existing.map((tool, toolIndex) => (
-                            <li key={toolIndex} className="small mb-1">
-                              <div className="d-flex justify-content-between align-items-center">
-                                <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
-                                {typeof tool === 'object' && tool.url && (
-                                  <a 
-                                    href={tool.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className="btn btn-xs btn-outline-primary"
-                                    style={{ fontSize: '0.7rem', padding: '0.1rem 0.3rem' }}
-                                  >
-                                    Visit
-                                  </a>
-                                )}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {share.tools && share.tools.new && share.tools.new.length > 0 && (
-                      <div className="mb-3">
-                        <h6>New Tool Ideas:</h6>
-                        <ul className="list-unstyled">
-                          {share.tools.new.map((tool, toolIndex) => (
-                            <li key={toolIndex} className="small mb-1">
-                              <div className="d-flex justify-content-between align-items-center">
-                                <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
-                                <div>
-                                  {typeof tool === 'object' && tool.buildable === 'yes' && (
-                                <Button
-                                  variant="primary" 
-                                  size="sm"
-                                  onClick={() => handleCreateTool(tool.tool)}
-                                >
-                                Create
-                                </Button>
+                      {share.tools && share.tools.existing && share.tools.existing.length > 0 && (
+                        <div className="mb-3">
+                          <h6>Existing Tools:</h6>
+                          <ul className="list-unstyled">
+                            {share.tools.existing.map((tool, toolIndex) => (
+                              <li key={toolIndex} className="small mb-1">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
+                                  {typeof tool === 'object' && tool.url && (
+                                    <a 
+                                      href={tool.url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer" 
+                                      className="btn btn-xs btn-outline-primary"
+                                      style={{ fontSize: '0.7rem', padding: '0.1rem 0.3rem' }}
+                                    >
+                                      Visit
+                                    </a>
                                   )}
                                 </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-            ))}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {share.tools && share.tools.new && share.tools.new.length > 0 && (
+                        <div className="mb-3">
+                          <h6>New Tool Ideas:</h6>
+                          <ul className="list-unstyled">
+                            {share.tools.new.map((tool, toolIndex) => (
+                              <li key={toolIndex} className="small mb-1">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
+                                  <div>
+                                    {typeof tool === 'object' && tool.buildable === 'yes' && (
+                                      <Button
+                                        variant="primary" 
+                                        size="sm"
+                                        onClick={() => handleCreateTool(tool.tool)}
+                                      >
+                                        Create
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
         )}
       </Container>
     </>
