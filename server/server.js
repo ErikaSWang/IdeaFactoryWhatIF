@@ -181,12 +181,10 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-      /*
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-      */
       instructions: systemPrompt,
       input: userInput
     });

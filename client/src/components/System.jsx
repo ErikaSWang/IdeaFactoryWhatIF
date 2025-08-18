@@ -16,7 +16,7 @@ export const System = ({item}) => {
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
     // You can add actual tool creation logic here later
-    alert(`Creating ${toolName}...`);
+    alert(`To create ${toolName}, visit replit.com, and ask the Agent tool to help you build a prototype. Good luck, I am rooting for you! <3`);
   };
 
   const Share = async () => {
