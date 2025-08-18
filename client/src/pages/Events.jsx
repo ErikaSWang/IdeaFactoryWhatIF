@@ -25,7 +25,7 @@ export const Events = () => {
 
   const fetchPublicShares = async () => {
     try {
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
+      const response = await fetch('/api/public');
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);

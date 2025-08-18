@@ -143,7 +143,7 @@ export const System = ({item}) => {
 
                     {analysis.new_options && analysis.new_options.length > 0 && (
                       <>
-                        <h3>New Options & Possibilities</h3>
+                        <h4 className="highlight">New Options & Possibilities</h4>
                         <div className="new-options-list">
                           {analysis.new_options.map((option, index) => (
                             <div key={index} className="option-item">
