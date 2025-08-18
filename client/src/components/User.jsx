@@ -16,7 +16,7 @@ export const User = ({item}) => {
             {input && (
               <div className="analysis-results">
                   <div className="d-flex justify-content-right user-input">
-                    <p>{input}</p>
+                    {input}
                   </div>
               </div>
             )}

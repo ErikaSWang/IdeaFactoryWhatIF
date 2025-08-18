@@ -15,7 +15,7 @@ export const System = ({item}) => {
             <div className="analysis-results">
                 <div className="analysis-section">
                     {analysis.conflict_identified && (
-                      <h4>{analysis.conflict_identified}</h4>
+                      <h3>{analysis.conflict_identified}</h3>
                     )}
 
                     {analysis["parties identified"] && analysis["parties identified"].length > 0 && (

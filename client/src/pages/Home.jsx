@@ -73,7 +73,7 @@ export const Home = () => {
       });
 
       /*
-      const response = await fetch('http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/analyze-conflict', {
+      const response = await fetch('http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000/api/analyze-conflict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userInput }),
@@ -113,7 +113,6 @@ export const Home = () => {
   return (
     <>
       <Container className='d-flex flex-col justify-content-center align-content-between flex-wrap main-component'>
-
 
         <Container 
           className='d-flex flex-col justify-content-center output'

@@ -8,6 +8,6 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     hmr: true,
-    allowedHosts: ['localhost', 'localhost:3000', '172.31.82.34', '172.31.82.34:3000', 'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev', 'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000', 'IdeaFactoryWhatIF.replit.app', 'IdeaFactoryWhatIF.replit.app:3000']
+    allowedHosts: ['e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev', 'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000', 'IdeaFactoryWhatIF.replit.app', 'IdeaFactoryWhatIF.replit.app:3000']
   }
 })

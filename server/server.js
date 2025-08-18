@@ -51,6 +51,8 @@ app.use(cors({
     'http://localhost:5173',
     'http://172.31.82.34',
     'http://172.31.82.34:5173',
+    'http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
+    'http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
     'https://IdeaFactoryWhatIF.replit.app',

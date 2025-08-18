@@ -100,7 +100,9 @@ img {
 }
 .scroll-box {
   height: 55vh;
+  width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 .scroll-box::-webkit-scrollbar {
   width: 12px;               /* width of the entire scrollbar */
@@ -116,6 +118,7 @@ img {
   border: 3px solid #4b6c0e;  /* creates padding around scroll thumb */
 }
 .analysis-results {
+  width: 100%;
   animation: fadeIn 0.6s ease-in;
 }
 .spinner {
@@ -169,7 +172,7 @@ section {
   margin: 1rem 1rem 1rem 3rem;
   padding: 1.5rem;
   border-radius: 1em;
-  border-right: 4px solid #3352db;
+  border-right: 4px solid #536ee4;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
   font-size: 1.15rem;
@@ -177,7 +180,7 @@ section {
 }
 
 .analysis-section {
-  background: #cecfcf;
+  background: #e3e8e8;
   margin: 1rem 3rem 1rem 1rem;
   padding: 1.5rem;
   border-radius: 1em;
@@ -191,20 +194,17 @@ section {
 }
 .analysis-section h3 {
   color: #2d3748;
-  margin-top: 0;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   font-size: 1.2rem;
 }
 
-
 .analysis-section ul {
-  margin: 0;
+  margin:0;
 }
-
 .analysis-section li {
   color: #4a5568;
 }
-
 
 .facts-subsection {
   margin-bottom: 1.5rem;
