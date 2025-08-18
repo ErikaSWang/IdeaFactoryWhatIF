@@ -360,7 +360,16 @@ app.get('/api/conflicts', async (req, res) => {
 // Save share to database
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
-  const tools = history[1].content.tools;
+  let tools = {};
+  
+  try {
+    // Parse the AI response to get just the tools
+    const analysisData = JSON.parse(history[1].content);
+    tools = analysisData.tools || {};
+  } catch (parseError) {
+    console.log('Failed to parse analysis data for sharing');
+    tools = {};
+  }
 
   try {
     const result = await pool.query(
