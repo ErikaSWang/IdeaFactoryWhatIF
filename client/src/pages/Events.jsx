@@ -26,11 +26,11 @@ export const Events = () => {
   const fetchPublicShares = async () => {
     try {
       const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
-      
+
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log('Fetched public shares:', data);
       if (data.length > 0) {
@@ -75,9 +75,9 @@ export const Events = () => {
               <p>Be the first to share your conflict analysis with the world!</p>
             </>
         ) : (
-            <Row>
+            <div className="d-flex flex-wrap gap-4 justify-content-center">
               {publicShares.map((share, index) => (
-                <Col key={share.id || index} md={4} className="mb-4">
+                <div key={share.id || index} className="flex-fill" style={{ minWidth: '300px', maxWidth: '400px' }}>
                   <Card className="h-100 bg-secondary shadow-lg">        
                     <Card.Header className="text-truncate" title={share.user_input}>
                       {share.user_input.length > 60 
@@ -143,9 +143,9 @@ export const Events = () => {
                       )}
                     </Card.Body>
                   </Card>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
         )}
       </Container>
     </>
