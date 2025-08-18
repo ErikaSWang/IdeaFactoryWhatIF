@@ -50,7 +50,6 @@ pool.query(`
     id SERIAL PRIMARY KEY,
     user_input TEXT NOT NULL,
     tools JSONB,
-    analysis JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `).catch(err => console.error('Error creating public table:', err));
@@ -361,22 +360,12 @@ app.get('/api/conflicts', async (req, res) => {
 // Save share to database
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
-  let analysisData = {};
-  
-  try {
-    // Parse the AI response to get the full analysis
-    analysisData = JSON.parse(history[1].content);
-  } catch (parseError) {
-    console.log('Failed to parse analysis data for sharing');
-    analysisData = {};
-  }
+  const tools = history[1].content.tools;
 
-  const tools = analysisData.tools || {};
-  
   try {
     const result = await pool.query(
-      'INSERT INTO public (user_input, tools, analysis) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, tools, analysisData]
+      'INSERT INTO public (user_input, tools) VALUES ($1, $2) RETURNING *',
+      [userInput, tools]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
