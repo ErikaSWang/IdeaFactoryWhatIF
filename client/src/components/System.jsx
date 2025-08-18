@@ -5,10 +5,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 
 export const System = ({item}) => {
   const analysis = item.analysis;
+  const [showToast, setShowToast] = useState(false);
 
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
@@ -17,7 +20,6 @@ export const System = ({item}) => {
   };
 
   const Share = async () => {
-
     try {
       const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/share', {
         method: 'POST',
@@ -35,6 +37,9 @@ export const System = ({item}) => {
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
+
+      // Show success toast
+      setShowToast(true);
 
     } catch (error) {
       console.error('Error sharing:', error);
@@ -241,6 +246,17 @@ export const System = ({item}) => {
                 </div>
             </div>
         )}
+
+        <ToastContainer position="bottom-end" className="p-3">
+          <Toast show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide>
+            <Toast.Header>
+              <strong className="me-auto">✅ Success!</strong>
+            </Toast.Header>
+            <Toast.Body>
+              Your analysis has been shared with the world!
+            </Toast.Body>
+          </Toast>
+        </ToastContainer>
     </>
   )
 }
