@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const { Pool } = require('pg');
 const OpenAI = require('openai');
 //const { Agent, run, tool } = require('@openai/agents');
@@ -78,7 +79,12 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Serve static files from client/dist
-app.use(express.static('../client/dist'));
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Serve the React app for any other routes (SPA routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.get('/', (req, res) => {
   res.send('Server is running!');
