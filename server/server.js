@@ -171,7 +171,7 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
 </format of response>
 `;
     
-    const client = OpenAI()
+    const client = new OpenAI()
     
     const completion = await client.responses.create({
       model: "gpt-5-nano",
@@ -266,7 +266,7 @@ Where there are "" please return a string, and where there are [] please return 
 </format of response>
 `;
 
-    const client = OpenAI()
+    const client = new OpenAI()
 
     const completion = await client.responses.create({
       model: "gpt-5-nano",
