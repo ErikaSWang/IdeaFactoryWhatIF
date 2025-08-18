@@ -398,9 +398,13 @@ app.get('/api/public', async (req, res) => {
   }
 });
 
-// Serve the React app for any non-API routes (must be last)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+app.get('/events', async (req, res) => {
+  try {
+
+    res.sendFile(path.join(__dirname, '../client/dist/events'));
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // custom 404
