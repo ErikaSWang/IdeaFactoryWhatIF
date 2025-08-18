@@ -395,13 +395,13 @@ app.get('/api/public', async (req, res) => {
   }
 });
 
-// Serve static files from client/dist (must be after API routes)
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
-// Serve React app for any non-API routes (catch-all)
-app.get('*', (req, res) => {
+// Specific route for /events to serve React app
+app.get('/events', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
+// Serve static files from client/dist (must be after API routes)
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // custom 404
 app.use((req, res, next) => {
