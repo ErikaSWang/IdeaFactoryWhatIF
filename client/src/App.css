@@ -234,7 +234,9 @@ p {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
-
+.event-header {
+  color: #667eea;
+}
 .trajectory-item {
   margin-bottom: 0.5rem;
   padding: 0.5rem;

@@ -13,6 +13,12 @@ export const Events = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleCreateTool = (toolName) => {
+    console.log(`Creating tool: ${toolName}`);
+    // You can add actual tool creation logic here later
+    alert(`Creating ${toolName}...`);
+  };
+
   useEffect(() => {
     fetchPublicShares();
   }, []);
@@ -60,45 +66,32 @@ export const Events = () => {
   return (
     <>
       <Container className="main-component py-4">
-        <Row className="mb-4">
-          <Col>
-            <h2 className="text-center">🌍 Shared with the World</h2>
-            <p className="text-center text-muted">Community analyses and tool suggestions</p>
-          </Col>
-        </Row>
+
+            <h3 className="text-center event-header">🌍 Community concerns and tool suggestions </h3>
 
         {publicShares.length === 0 ? (
-          <Row>
-            <Col className="text-center">
-              <Card>
-                <Card.Body>
-                  <Card.Title>No Shared Analyses Yet</Card.Title>
-                  <Card.Text>Be the first to share your conflict analysis with the world!</Card.Text>
-                  <Button variant="primary" href="/">Start an Analysis</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+            <>
+              <H5>No Shared Analyses Yet</H5>
+              <p>Be the first to share your conflict analysis with the world!</p>
+            </>
         ) : (
-          <Row>
+
             {publicShares.map((share, index) => (
-              <Col md={6} lg={4} className="mb-4" key={share.id}>
-                <Card className="h-100 shadow-sm">
+                <Card className="h-100 w-50  bg-secondary shadow-lg">        
+                  <Card.Header className="text-truncate" title={share.user_input}>
+                    {share.user_input.length > 60 
+                      ? `${share.user_input.substring(0, 60)}...` 
+                      : share.user_input
+                    }
+                  </Card.Header>
                   <Card.Body className="d-flex flex-column">
-                    <Card.Title className="text-truncate" title={share.user_input}>
-                      {share.user_input.length > 60 
-                        ? `${share.user_input.substring(0, 60)}...` 
-                        : share.user_input
-                      }
-                    </Card.Title>
-                    
                     <Card.Text className="text-muted small">
                       Shared on {new Date(share.created_at).toLocaleDateString()}
                     </Card.Text>
 
                     {share.tools && share.tools.existing && share.tools.existing.length > 0 && (
                       <div className="mb-3">
-                        <h6>🔧 Existing Tools:</h6>
+                        <h6>Existing Tools:</h6>
                         <ul className="list-unstyled">
                           {share.tools.existing.map((tool, toolIndex) => (
                             <li key={toolIndex} className="small mb-1">
@@ -124,7 +117,7 @@ export const Events = () => {
 
                     {share.tools && share.tools.new && share.tools.new.length > 0 && (
                       <div className="mb-3">
-                        <h6>💡 New Tool Ideas:</h6>
+                        <h6>New Tool Ideas:</h6>
                         <ul className="list-unstyled">
                           {share.tools.new.map((tool, toolIndex) => (
                             <li key={toolIndex} className="small mb-1">
@@ -132,7 +125,13 @@ export const Events = () => {
                                 <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
                                 <div>
                                   {typeof tool === 'object' && tool.buildable === 'yes' && (
-                                    <span className="text-success small">✓ Buildable</span>
+                                <Button
+                                  variant="primary" 
+                                  size="sm"
+                                  onClick={() => handleCreateTool(tool.tool)}
+                                >
+                                Create
+                                </Button>
                                   )}
                                 </div>
                               </div>
@@ -143,9 +142,7 @@ export const Events = () => {
                     )}
                   </Card.Body>
                 </Card>
-              </Col>
             ))}
-          </Row>
         )}
       </Container>
     </>
