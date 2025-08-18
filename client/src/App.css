@@ -228,7 +228,11 @@ p {
 .facts-subsection {
   margin-bottom: 1.5rem;
 }
-
+.subheadings {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem
+}
 .facts-subsection h4 {
   color: #667eea;
   margin-bottom: 0.5rem;
@@ -236,6 +240,15 @@ p {
 }
 .event-header {
   color: #667eea;
+}
+.card-heading {
+  color: #152575;
+}
+.highlight {
+  color: #659d20;
+}
+.custom-bg {
+  background-color: #f1f1e9;
 }
 .trajectory-item {
   margin-bottom: 0.5rem;

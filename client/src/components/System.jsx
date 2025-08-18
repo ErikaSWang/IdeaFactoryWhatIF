@@ -128,7 +128,7 @@ export const System = ({item}) => {
                                 <p>{trajectory}</p>
                               ) : (
                                 <>
-                                  <h4 className="facts-subsection">{trajectory.name}</h4>
+                                  <h4 className="subheadings">{trajectory.name}</h4>
                                   <p>{trajectory.description}</p>
                                   {trajectory.likelihood && (
                                     <small className="text-muted">Likelihood: {Math.round(trajectory.likelihood * 100)}%</small>
@@ -151,7 +151,7 @@ export const System = ({item}) => {
                                 <p>{option}</p>
                               ) : (
                                 <>
-                                    <h4 className="facts-subsection">{option.name}</h4>
+                                    <h4 className="subheadings">{option.name}</h4>
                                     <p>{option.description}</p>
                                     {option.likelihood && (
                                       <small className="text-muted">Likelihood: {Math.round(option.likelihood * 100)}%</small>
@@ -187,7 +187,7 @@ export const System = ({item}) => {
 
                     {analysis.tools && (
                       <>
-                        <h3>Tools & Technology Solutions</h3>
+                        <h4 className="highlight">Tools & Technology Solutions</h4>
                         {analysis.tools.existing && analysis.tools.existing.length > 0 && (
                           <div className="tools-subsection">
                             <h4>Existing Tools</h4>

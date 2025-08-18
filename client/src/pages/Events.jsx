@@ -67,7 +67,7 @@ export const Events = () => {
     <>
       <Container className="main-component py-4">
 
-            <h3 className="text-center event-header">🌍 Community concerns and tool suggestions </h3>
+            <h3 className="text-center event-header pb-3">🌍 Community concerns and tool suggestions </h3>
 
         {publicShares.length === 0 ? (
             <>
@@ -78,12 +78,11 @@ export const Events = () => {
             <div className="d-flex flex-wrap gap-4 justify-content-center">
               {publicShares.map((share, index) => (
                 <div key={share.id || index} className="flex-fill" style={{ minWidth: '300px', maxWidth: '400px' }}>
-                  <Card className="h-100 bg-secondary shadow-lg">        
-                    <Card.Header className="text-truncate" title={share.user_input}>
-                      {share.user_input.length > 60 
-                        ? `${share.user_input.substring(0, 60)}...` 
-                        : share.user_input
-                      }
+                  <Card className="h-100 custom-bg shadow-lg">        
+                    <Card.Header className="card-heading" title={share.user_input}>
+                      <h5>
+                      {share.user_input}
+                      </h5>
                     </Card.Header>
                     <Card.Body className="d-flex flex-column">
                       <Card.Text className="text-muted small">
