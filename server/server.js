@@ -127,7 +127,7 @@ Where there are "" please return a string, and where there are [] please return 
 - For the realistic trajectories, please use key:value pairs for the name, description, and likelihood
 - For the new options, please use key:value pairs for the name, description, and likelihood
 - For the existing tools, please use key:value pairs for the tool, and the url to the tool
-- For the new tools, please use key:value pairs for the tool, and whether it is buildable (right now - yes/no)
+- For the new tools, please use key:value pairs for the tool, and whether it is buildable (right now - lower case yes/no)
 
 For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
 

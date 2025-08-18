@@ -39,8 +39,6 @@ export const System = ({item}) => {
     } catch (error) {
       console.error('Error sharing:', error);
       setError(`Error: ${error.message}. Please notify the administrator.`);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -238,7 +236,9 @@ export const System = ({item}) => {
                       </>
                     )}
                 </div>
-                <Button variant="alert" className="d-flex justify-content-right save" onClick={Share}>Share with the World</Button>
+                <div className="d-flex justify-content-end w-100 pe-5 pb-3">
+                  <Button variant="success" className="d-flex justify-content-end" onClick={Share}>Share with the World</Button>
+                </div>
             </div>
         )}
     </>
