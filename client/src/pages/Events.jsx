@@ -137,38 +137,6 @@ export const Events = () => {
                         </ul>
                       </div>
                     )}
-
-                    {share.analysis && share.analysis.trajectories && share.analysis.trajectories.length > 0 && (
-                      <div className="mb-3">
-                        <h6>📈 Realistic Trajectories:</h6>
-                        <ul className="list-unstyled">
-                          {share.analysis.trajectories.map((trajectory, trajIndex) => (
-                            <li key={trajIndex} className="small mb-1">
-                              • {typeof trajectory === 'string' ? trajectory : trajectory.name}
-                              {typeof trajectory === 'object' && trajectory.likelihood && (
-                                <span className="text-muted"> ({Math.round(trajectory.likelihood * 100)}%)</span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {share.analysis && share.analysis.options && share.analysis.options.length > 0 && (
-                      <div className="mb-3">
-                        <h6>🔄 New Options:</h6>
-                        <ul className="list-unstyled">
-                          {share.analysis.options.map((option, optIndex) => (
-                            <li key={optIndex} className="small mb-1">
-                              • {typeof option === 'string' ? option : option.name}
-                              {typeof option === 'object' && option.likelihood && (
-                                <span className="text-muted"> ({Math.round(option.likelihood * 100)}%)</span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </Card.Body>
                 </Card>
               </Col>
