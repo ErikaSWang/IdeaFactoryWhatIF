@@ -81,11 +81,6 @@ app.use(bodyParser.json());
 // Serve static files from client/dist
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Serve the React app for any other routes (SPA routing)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
@@ -399,6 +394,11 @@ app.get('/api/public', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// Serve the React app for any other routes (SPA routing) - MUST be last
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
