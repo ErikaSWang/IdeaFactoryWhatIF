@@ -26,6 +26,10 @@ export const Events = () => {
       }
       
       const data = await response.json();
+      console.log('Fetched public shares:', data);
+      if (data.length > 0) {
+        console.log('First share tools structure:', data[0].tools);
+      }
       setPublicShares(data);
     } catch (err) {
       setError(err.message);
