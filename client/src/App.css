@@ -54,7 +54,7 @@ img {
   transform: none;
 }
 .continue-button {
-  background: linear-gradient(135deg, #3b469b 0%, #232f8b 75%, #30449c 100%);
+  background: linear-gradient(135deg, #306ec0 0%, #3976c6 75%, #3874c2 100%);
   color: white;
   border: none;
   font-size: 1.1rem;

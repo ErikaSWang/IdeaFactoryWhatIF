@@ -48,15 +48,15 @@ pool.query(`
 app.use(cors({
   origin: [
     'http://localhost',
-    'http://localhost:5173',
-    'http://172.31.82.34',
-    'http://172.31.82.34:5173',
-    'http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
-    'http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
-    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
-    'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
-    'https://IdeaFactoryWhatIF.replit.app',
-    'https://IdeaFactoryWhatIF.replit.app:5173',
+      'http://localhost:5173',
+      'http://172.31.122.226',
+      'http://172.31.122.226:5173',
+      'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
+      'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
+      'https://vibecoding4All.replit.app',
+      'https://vibecoding4All.replit.app:5173',
+      'https://IdeaFactoryWhatIF.replit.app',
+      'https://IdeaFactoryWhatIF.replit.app:5173',
   ],
   credentials: true
 }));
@@ -95,9 +95,15 @@ app.post('/api/analyze-conflict', async (req, res) => {
 
 Please use simple language.
 
-Please use the following JSON format for your response. Return only a single valid JSON object. No prose, no code fences, no comments, no trailing commas. Where there are "" please return a string, and where there are [] please return an array. For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
+<format of response>
+And return a single valid JSON object - it MUST be a single valid JSON object ... no prose, no code fences, no comments, no trailing commas. 
+
+Where there are "" please return a string, and where there are [] please return an array. For the existing tools, please use key:value pairs for the tool, and the url to the tool. For the new tools, please use key:value pairs for the tool, and whether it is buildable right now (yes/no).
+
+For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings like 72%.
 
 {
+  "show_kindness_understanding_compassion": "",
   "title": ""
   "conflict_identified": "",
   "parties identified": [],
@@ -114,7 +120,9 @@ Please use the following JSON format for your response. Return only a single val
     "existing": [],
     "new": []
   }
-}`;
+}
+</format of response>
+`;
     
     const client = OpenAI()
     

@@ -1,0 +1,60 @@
+=================================
+Conflict Resolution AI Server running on port 5000
+Environment variables:
+PGUSER: neondb_owner
+PGHOST: ep-snowy-bar-afizjw8y.c-2.us-west-2.aws.neon.tech
+PGDATABASE: neondb
+OPENAI_API_KEY: Set
+Request received=================
+AI response: {
+  "show_kindness_understanding_compassion": "I’m with you—running a burger shop is hard. Here’s a practical, simple plan you can start today.",
+  "title": "Action plan for a struggling burger shop",
+  "conflict_identified": "Business performance challenges (low sales, rising costs, competitive pressure)",
+  "parties identified": ["customers", "staff", "suppliers", "local competitors", "delivery partners", "landlord"],
+  "facts": {
+    "historical_background": [
+      "Opened earlier (unknown date). Peak days often weekends; slower weekdays.",
+      "Menu has a mix of best-sellers and underperformers; margins vary by item."
+    ],
+    "current_issues_preventing_peace": [
+      "Declining foot traffic",
+      "Rising food costs and waste",
+      "Long wait times during busy periods",
+      "Limited online ordering and pickup efficiency",
+      "Mixed online reviews affecting reputation"
+    ]
+  },
+  "realistic_trajectories": [
+    {"name": "Do nothing (no changes)", "description": "Revenue remains flat or declines due to competition and costs.", "likelihood": 0.40},
+    {"name": "Incremental improvements", "description": "Targeted changes in menu, pricing, marketing, and operations to stabilize and grow modestly.", "likelihood": 0.45},
+    {"name": "Major overhaul", "description": "Significant changes to menu, branding, pricing strategy, and delivery approach to turn around performance.", "likelihood": 0.15}
+  ],
+  "new_options": [
+    {"tool": "AI-driven pricing and menu optimization", "how_it_helps": "Identify profitable combinations and price points; reduce waste."},
+    {"tool": "Loyalty and marketing automation platform", "how_it_helps": "Encourage repeat visits and track customer value."},
+    {"tool": "Waste/inventory real-time tracker", "how_it_helps": "Cut costs by reducing waste and spoilage."},
+    {"tool": "Direct ordering portal with loyalty integration", "how_it_helps": "Increase margins by reducing platform fees."},
+    {"tool": "Social media content generator for promos", "how_it_helps": "Keep marketing costs low while maintaining visibility."}
+  ],
+  "healing_needed": "If there are tensions with staff or customers, focus on clear communication, fair scheduling, and recognizing staff contributions to improve morale.",
+  "antagonists": "Competition, rising costs, and inconsistent service leading to negative reviews.",
+  "odds": 0.66,
+  "tools": {
+    "existing": [
+      {"tool": "Google Business Profile", "url": "https://www.google.com/business/"},
+      {"tool": "Square POS (Restaurant)", "url": "https://squareup.com/us/en/point-of-sale/restaurant"},
+      {"tool": "QuickBooks (Accounting)", "url": "https://quickbooks.intuit.com/"},
+      {"tool": "DoorDash", "url": "https://www.doordash.com/"},
+      {"tool": "Uber Eats", "url": "https://www.ubereats.com/"},
+      {"tool": "Grubhub", "url": "https://www.grubhub.com/"},
+      {"tool": "Google Forms (customer feedback)", "url": "https://forms.google.com"} 
+    ],
+    "new": [
+      {"tool": "AI-driven pricing and menu optimizer", "buildable_now": "yes"},
+      {"tool": "Loyalty and marketing automation platform", "buildable_now": "yes"},
+      {"tool": "Waste/inventory real-time tracker", "buildable_now": "yes"},
+      {"tool": "Direct ordering portal with loyalty integration", "buildable_now": "yes"},
+      {"tool": "Social media content generator for promos", "buildable_now": "yes"}
+    ]
+  }
+}
