@@ -66,7 +66,7 @@ export const Home = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/analyze-conflict', {
+      const response = await fetch('/api/analyze-conflict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userInput }),
@@ -98,11 +98,15 @@ export const Home = () => {
 
     } catch (error) {
       console.error('Error analyzing conflict:', error);
-      setError(`Error: ${error.message}. Please check that your OpenAI API key is set correctly.`);
+      setError(`Error: ${error.message}. Please notify the administrator.`);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    console.log('conversation:', conversation)
+  }, [conversation])
 
 
 

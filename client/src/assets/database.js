@@ -1,8 +1,8 @@
 export const suggestions = [
   "Is Computer Science still a good college major in 2025?",
-  "My burger shop is struggling. Traffic is down, and costs are up.",
+  "My burger shop is struggling. What can I do?",
+  "Do artists who embrace AI make more money?",
   "What's the future for the US economy?",
-  "Is flooding on the rise? How can I prepare?",
   "Is peace in the Gaza region possible?",
   "How do we solve cancer?",
   "Can the Dallas Cowboys win Micah Parsons back?",

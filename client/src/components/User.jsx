@@ -7,15 +7,15 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 
 
-export const User = ({conversation}) => {
-  const input = conversation.input || conversation.userInput;
+export const User = ({item}) => {
+  const input = item.input;
   
   return (
     <>
-        <Container>
+        <Container className='d-flex justify-content-right'>
             {input && (
               <div className="analysis-results">
-                  <div className="user-input">
+                  <div className="d-flex justify-content-right user-input">
                     <p>{input}</p>
                   </div>
               </div>
