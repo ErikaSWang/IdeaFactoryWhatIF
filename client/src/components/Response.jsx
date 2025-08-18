@@ -16,9 +16,9 @@ export const Response = ({conversation}) => {
         <Container>
           {conversation.map((item, index) =>
             item.type === 'user' ?
-              <User key={index} item={item} />
+              <User key={index} conversation={item} />
             :
-              <System key={index} item={item} />
+              <System key={index} conversation={item} />
           )}
         </Container>
       </div>
