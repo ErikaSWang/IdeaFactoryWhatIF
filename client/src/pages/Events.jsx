@@ -76,6 +76,7 @@ export const Events = () => {
         ) : (
             <div className="d-flex flex-wrap justify-content-center">
               {publicShares.map((share, index) => (
+                <>
                   <Card key={share.id || index} className="card p-2 m-2 custom-bg shadow-lg">        
                     <Card.Header className="card-heading" title={share.user_input}>
                       <h5>
@@ -141,29 +142,33 @@ export const Events = () => {
                     </Card.Body>
                     <Card.Footer className='d-flex justify-content-end'>
                       <Button variant='success' onClick={() => setShow(true)}>See Full Conversation</Button>
-                      <Modal
-                        size="lg"
-                        show={show}
-                        onHide={() => setShow(false)}
-                        aria-labelledby="example-modal-sizes-title-lg"
-                        className='bg-secondary'
-                      >
-                        <Modal.Header closeButton>
-                          <Modal.Title id="example-modal-sizes-title-lg">
-                            Full Conversation
-                          </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Response conversation={share.conversation} />
-                        </Modal.Body>
-                      </Modal>
                     </Card.Footer>
                   </Card>
+
+                   <Modal
+                      size="lg"
+                      show={show}
+                      onHide={() => setShow(false)}
+                      aria-labelledby="example-modal-sizes-title-lg"
+                      className='bg-secondary text-light'
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title id="example-modal-sizes-title-lg">
+                          Full Conversation
+                        </Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Response conversation={share.conversation} />
+                      </Modal.Body>
+                    </Modal>
+
+                  </>
                 ))
               }
             </div>
         )}
       </Container>
+
     </>
   );
 }
