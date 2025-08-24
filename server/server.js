@@ -24,14 +24,14 @@ const pool = new Pool({
 
 // Create table if not exist
 pool.query(`
-  CREATE TABLE IF NOT EXISTS conversations (
+  CREATE TABLE IF NOT EXISTS public (
     id SERIAL PRIMARY KEY,
     user_input TEXT NOT NULL,
+    analysis JSONB,
     tools JSONB,
-    conversation JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
-`).catch(err => console.error('Error creating conversations table:', err));
+`).catch(err => console.error('Error creating public table:', err));
 
 
 app.use(cors({
@@ -308,7 +308,7 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
-  const conversation = history;
+  let analysis = history;
   
   try {
     // Parse the AI response to get just the tools
@@ -322,8 +322,8 @@ app.post('/api/share', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'INSERT INTO conversations (user_input, tools, conversation) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, tools, conversation]
+      'INSERT INTO public (user_input, tools, analysis) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, tools, analysis]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
@@ -334,7 +334,7 @@ app.post('/api/share', async (req, res) => {
 // Get all conflicts
 app.get('/api/public', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM conversations ORDER BY created_at DESC');
+    const result = await pool.query('SELECT * FROM public ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
