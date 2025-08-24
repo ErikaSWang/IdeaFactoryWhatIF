@@ -308,7 +308,7 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
-  let analysis = {};
+  let analysis = history;
   
   try {
     // Parse the AI response to get just the tools
@@ -320,20 +320,11 @@ app.post('/api/share', async (req, res) => {
     tools = {};
   }
 
-  try {
-    // Parse the AI response
-    const analysisData = JSON.parse(history.content);
-    analysis = analysisData || {};
-
-  } catch (parseError) {
-    console.log('Failed to parse tools data for sharing');
-    tools = {};
-  }
 
   try {
     const result = await pool.query(
-      'INSERT INTO public (user_input, tools) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, analysis, tools]
+      'INSERT INTO public (user_input, tools, analysis) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, tools, analysis]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
