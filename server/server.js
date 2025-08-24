@@ -295,7 +295,7 @@ app.post('/api/share', async (req, res) => {
   console.log('Share request received');
   console.log('history:', history)
   
-  if (!history || history.length < 2) {
+  if (!history) {
     return res.status(400).json({ error: 'No conversation history available' });
   }
 
