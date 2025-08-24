@@ -294,6 +294,8 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   console.log('Share request received');
   console.log('Anything??');
+
+  console.log('history:', history)
   
   const userInput = history[0].content;
   const conversation = history;

@@ -1,0 +1,70 @@
+history: [
+  { role: 'user', content: 'Should I get a cat?' },
+  {
+    role: 'assistant',
+    content: '{\n' +
+      `  "show_kindness_understanding_compassion": "I understand you're considering whether to get a cat. Here are practical tips to help you decide and plan care.",\n` +
+      '  "title": "Should I get a cat?",\n' +
+      '  "conflict_identified": "none",\n' +
+      '  "parties identified": [],\n' +
+      '  "facts": {\n' +
+      '    "historical_background": [],\n' +
+      '    "current_issues_preventing_peace": []\n' +
+      '  },\n' +
+      '  "realistic_trajectories": [\n' +
+      '    {\n' +
+      '      "name": "Adopt a cat and enjoy companionship",\n' +
+      '      "description": "You gain a feline friend, routine, and possible emotional benefits, but must budget for food, litter, vet, and time for care.",\n' +
+      '      "likelihood": 0.55\n' +
+      '    },\n' +
+      '    {\n' +
+      '      "name": "Decide not to adopt for now",\n' +
+      `      "description": "You determine it's not the right time due to allergies, housing, finances, or lifestyle constraints.",\n` +
+      '      "likelihood": 0.25\n' +
+      '    },\n' +
+      '    {\n' +
+      '      "name": "Foster first to test compatibility",\n' +
+      '      "description": "You foster a cat to test fit before full adoption.",\n' +
+      '      "likelihood": 0.20\n' +
+      '    }\n' +
+      '  ],\n' +
+      '  "new_options": [\n' +
+      '    {\n' +
+      '      "name": "Foster a cat before adopting",\n' +
+      '      "description": "Spend time with a cat to assess fit and costs without permanent commitment.",\n' +
+      '      "likelihood": 0.75\n' +
+      '    },\n' +
+      '    {\n' +
+      '      "name": "Volunteer at a shelter to test preferences",\n' +
+      '      "description": "Interact with cats to learn care needs and your preferences.",\n' +
+      '      "likelihood": 0.65\n' +
+      '    },\n' +
+      '    {\n' +
+      '      "name": "Adopt a calm, adult cat to minimize surprises",\n' +
+      '      "description": "Choose an adult, well-socialized cat to reduce behavioral surprises.",\n' +
+      '      "likelihood": 0.60\n' +
+      '    }\n' +
+      '  ],\n' +
+      '  "healing_needed": "No trauma; just thoughtful decision-making and planning.",\n' +
+      '  "antagonists": "",\n' +
+      '  "tools": {\n' +
+      '    "existing": [\n' +
+      '      {\n' +
+      '        "tool": "Petfinder",\n' +
+      '        "url": "https://www.petfinder.com/"\n' +
+      '      },\n' +
+      '      {\n' +
+      '        "tool": "ASPCA Adoption Resources",\n' +
+      '        "url": "https://www.aspca.org/adopt-pet/adopt-pet-basics"\n' +
+      '      }\n' +
+      '    ],\n' +
+      '    "new": [\n' +
+      '      {\n' +
+      '        "tool": "CatFit — cat ownership readiness app (proposed)",\n' +
+      '        "buildable": "yes"\n' +
+      '      }\n' +
+      '    ]\n' +
+      '  }\n' +
+      '}'
+  }
+]
