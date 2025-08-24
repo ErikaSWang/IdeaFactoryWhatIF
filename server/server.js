@@ -27,12 +27,19 @@ pool.query(`
   CREATE TABLE IF NOT EXISTS public (
     id SERIAL PRIMARY KEY,
     user_input TEXT NOT NULL,
-    analysis JSONB,
     tools JSONB,
+    conversation JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `).catch(err => console.error('Error creating public table:', err));
 
+pool.query(`
+  DROP TABLE IF EXISTS conflicts
+`).catch(err => console.error('Error dropping conflicts table:', err));
+
+pool.query(`
+  DROP TABLE IF EXISTS conversations
+`).catch(err => console.error('Error dropping conversations table:', err));
 
 app.use(cors({
   origin: [
@@ -71,7 +78,7 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
-let history = [];
+let history = {};
 let id;
 
 // Input endpoint #1
@@ -84,12 +91,12 @@ app.post('/api/analyze-conflict', async (req, res) => {
   }
 
   // Add the user input to the history
-  history = [
+  history = {
     {
       role: "user",
       content: userInput
     }
-  ];
+  };
 
   try {
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
@@ -169,12 +176,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-
+      /*
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-
+      */
       store: true,
       instructions: systemPrompt,
       input: userInput
@@ -191,13 +198,13 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
     }
 
     // Add the response to the history
-    history = [
+    history = {
         ...history,
       {
         role: "assistant",
         content: aiResponse
       }
-    ];
+    };
 
     // Save the response id
     id = completion.id;
@@ -226,13 +233,13 @@ app.post('/api/follow-up', async (req, res) => {
     return res.status(400).json({ error: 'User input is required' });
   }
 
-  history = [
+  history = {
       ...history,
     {
       role: "user",
       content: userInput
     }
-  ];
+  };
   
 
   try {
@@ -267,8 +274,6 @@ Where there are "" please return a string, and where there are [] please return 
       input: userInput
     });
 
-    id = completion.id;
-    console.log('Response id:', id)
 
     const aiResponse = completion.output_text;
     console.log('AI response:', aiResponse)
@@ -281,13 +286,13 @@ Where there are "" please return a string, and where there are [] please return 
     }
 
     // Add the response to the history
-    history = [
+    history = {
         ...history,
       {
         role: "assistant",
         content: aiResponse
       }
-    ];
+    };
 
 
     res.json({
@@ -308,7 +313,6 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
-  let analysis = history;
   
   try {
     // Parse the AI response to get just the tools
@@ -321,9 +325,18 @@ app.post('/api/share', async (req, res) => {
   }
 
   try {
+    // Parse the complete history
+    let conversation = JSON.parse(history);
+
+  } catch (parseError) {
+    console.log('Failed to parse history');
+    conversation = {};
+  }
+
+  try {
     const result = await pool.query(
-      'INSERT INTO public (user_input, tools, analysis) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, tools, analysis]
+      'INSERT INTO public (user_input, tools, conversation) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, tools, conversation]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
@@ -335,6 +348,7 @@ app.post('/api/share', async (req, res) => {
 app.get('/api/public', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM public ORDER BY created_at DESC');
+    
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
