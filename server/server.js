@@ -33,13 +33,6 @@ pool.query(`
   )
 `).catch(err => console.error('Error creating public table:', err));
 
-pool.query(`
-  DROP TABLE IF EXISTS conflicts
-`).catch(err => console.error('Error dropping conflicts table:', err));
-
-pool.query(`
-  DROP TABLE IF EXISTS conversations
-`).catch(err => console.error('Error dropping conversations table:', err));
 
 app.use(cors({
   origin: [
@@ -299,7 +292,11 @@ Where there are "" please return a string, and where there are [] please return 
 
 // Save share to database
 app.post('/api/share', async (req, res) => {
+  console.log('Share request received');
+  console.log('Anything??');
+  
   const userInput = history[0].content;
+  const conversation = history;
   let tools = {};
 
   try {
@@ -312,15 +309,6 @@ app.post('/api/share', async (req, res) => {
     tools = {};
   }
 
-  let conversation;
-  try {
-    // Parse the complete history
-    conversation = history; // Directly use the array
-
-  } catch (parseError) {
-    console.log('Failed to parse history');
-    conversation = {};
-  }
 
   try {
     const result = await pool.query(

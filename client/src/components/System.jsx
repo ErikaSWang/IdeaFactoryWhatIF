@@ -12,6 +12,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 export const System = ({item}) => {
   const analysis = item.analysis;
   const [showToast, setShowToast] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
@@ -23,7 +24,8 @@ export const System = ({item}) => {
     try {
       const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/share', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ })
       });
 
       /*
