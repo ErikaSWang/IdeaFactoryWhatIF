@@ -311,28 +311,20 @@ app.post('/api/share', async (req, res) => {
   let analysis = {};
   
   try {
-    // Parse the AI response to get just the tools
-    const toolsData = JSON.parse(history[1].content);
-    tools = toolsData.tools || {};
+    // Parse the AI response to get the full analysis and tools
+    const analysisData = JSON.parse(history[1].content);
+    analysis = analysisData || {};
+    tools = analysisData.tools || {};
     
   } catch (parseError) {
-    console.log('Failed to parse tools data for sharing');
-    tools = {};
-  }
-
-  try {
-    // Parse the AI response
-    const analysisData = JSON.parse(history.content);
-    analysis = analysisData || {};
-
-  } catch (parseError) {
-    console.log('Failed to parse tools data for sharing');
+    console.log('Failed to parse analysis data for sharing');
+    analysis = {};
     tools = {};
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO public (user_input, tools) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO public (user_input, analysis, tools) VALUES ($1, $2, $3) RETURNING *',
       [userInput, analysis, tools]
     );
     res.json({ message: 'Share saved successfully' });
