@@ -78,7 +78,7 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
-let history = {};
+let history = [];
 let id;
 
 // Input endpoint #1
@@ -91,12 +91,10 @@ app.post('/api/analyze-conflict', async (req, res) => {
   }
 
   // Add the user input to the history
-  history = {
-    {
-      role: "user",
-      content: userInput
-    }
-  };
+  history.push({
+    role: "user",
+    content: userInput
+  });
 
   try {
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
@@ -151,7 +149,6 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
   ],
   "healing_needed": "",
   "antagonists": "",
-  "odds": "",
   "tools": {
     "existing": [
       "tool": "",
@@ -165,9 +162,9 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
 }
 </format of response>
 `;
-    
+
     const client = new OpenAI()
-    
+
     const completion = await client.responses.create({
       model: "gpt-5-nano",
       reasoning: {
@@ -198,28 +195,25 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
     }
 
     // Add the response to the history
-    history = {
-        ...history,
-      {
-        role: "assistant",
-        content: aiResponse
-      }
-    };
+    history.push({
+      role: "assistant",
+      content: aiResponse
+    });
 
     // Save the response id
     id = completion.id;
     console.log('Response id:', id)
 
-    
+
     res.json({
       analysis: analysis
     });
 
   } catch (error) {
     console.error('OpenAI API error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to analyze conflict',
-      details: error.message 
+      details: error.message
     });
   }
 });
@@ -233,14 +227,11 @@ app.post('/api/follow-up', async (req, res) => {
     return res.status(400).json({ error: 'User input is required' });
   }
 
-  history = {
-      ...history,
-    {
-      role: "user",
-      content: userInput
-    }
-  };
-  
+  history.push({
+    role: "user",
+    content: userInput
+  });
+
 
   try {
     const systemPrompt = `
@@ -286,13 +277,10 @@ Where there are "" please return a string, and where there are [] please return 
     }
 
     // Add the response to the history
-    history = {
-        ...history,
-      {
-        role: "assistant",
-        content: aiResponse
-      }
-    };
+    history.push({
+      role: "assistant",
+      content: aiResponse
+    });
 
 
     res.json({
@@ -301,9 +289,9 @@ Where there are "" please return a string, and where there are [] please return 
 
   } catch (error) {
     console.error('OpenAI API error:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to analyze conflict',
-      details: error.message 
+      details: error.message
     });
   }
 });
@@ -313,20 +301,21 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
-  
+
   try {
     // Parse the AI response to get just the tools
     const toolsData = JSON.parse(history[1].content);
     tools = toolsData.tools || {};
-    
+
   } catch (parseError) {
     console.log('Failed to parse tools data for sharing');
     tools = {};
   }
 
+  let conversation;
   try {
     // Parse the complete history
-    let conversation = JSON.parse(history);
+    conversation = history; // Directly use the array
 
   } catch (parseError) {
     console.log('Failed to parse history');
@@ -348,7 +337,7 @@ app.post('/api/share', async (req, res) => {
 app.get('/api/public', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM public ORDER BY created_at DESC');
-    
+
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
