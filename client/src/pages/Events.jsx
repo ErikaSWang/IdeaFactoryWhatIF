@@ -25,11 +25,19 @@ export const Events = () => {
 
   const fetchPublicShares = async () => {
     try {
-      const response = await fetch('/api/public');
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
+
+      /*
+      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      */
 
       const data = await response.json();
       console.log('Fetched public shares:', data);
@@ -51,7 +59,7 @@ export const Events = () => {
 
   if (error) {
     return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
+      <Container className="d-flex justify-content-center align-items-center h-50">
         <Card className="text-center">
           <Card.Body>
             <Card.Title>Error Loading Shares</Card.Title>
@@ -66,7 +74,6 @@ export const Events = () => {
   return (
     <>
       <Container className="main-component py-4">
-
             <h3 className="text-center event-header pb-3">🌍 Community concerns and tool suggestions </h3>
 
         {publicShares.length === 0 ? (
@@ -75,10 +82,9 @@ export const Events = () => {
               <p>Be the first to share your conflict analysis with the world!</p>
             </>
         ) : (
-            <div className="d-flex flex-wrap gap-4 justify-content-center">
+            <div className="d-flex flex-wrap justify-content-center">
               {publicShares.map((share, index) => (
-                <div key={share.id || index} className="flex-fill" style={{ minWidth: '300px', maxWidth: '400px' }}>
-                  <Card className="h-100 custom-bg shadow-lg">        
+                  <Card key={share.id || index} className="card p-2 m-2 custom-bg shadow-lg">        
                     <Card.Header className="card-heading" title={share.user_input}>
                       <h5>
                       {share.user_input}
@@ -142,7 +148,6 @@ export const Events = () => {
                       )}
                     </Card.Body>
                   </Card>
-                </div>
               ))}
             </div>
         )}

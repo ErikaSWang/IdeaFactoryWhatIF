@@ -22,30 +22,7 @@ const pool = new Pool({
 });
 
 
-
-// Create tables if not exist
-pool.query(`
-  CREATE TABLE IF NOT EXISTS conversations (
-    id SERIAL PRIMARY KEY,
-    user_input TEXT NOT NULL,
-    analysis JSONB,
-    ai_response TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`).catch(err => console.error('Error creating conversations table:', err));
-
-pool.query(`
-  CREATE TABLE IF NOT EXISTS conflicts (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    parties JSONB,
-    key_issues JSONB,
-    analysis JSONB,
-    recommendations JSONB,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`).catch(err => console.error('Error creating conflicts table:', err));
-
+// Create table if not exist
 pool.query(`
   CREATE TABLE IF NOT EXISTS public (
     id SERIAL PRIMARY KEY,
@@ -54,6 +31,7 @@ pool.query(`
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
 `).catch(err => console.error('Error creating public table:', err));
+
 
 app.use(cors({
   origin: [
@@ -75,6 +53,9 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
+// Serve static files from client/dist (must be after API routes)
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
 const openai = new OpenAI({
   apiKey: process.env['OPENAI_API_KEY']
 });
@@ -90,6 +71,7 @@ app.get('/health', (req, res) => {
 });
 
 let history = [];
+let id;
 
 // Input endpoint #1
 app.post('/api/analyze-conflict', async (req, res) => {
@@ -186,10 +168,13 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
+      /*
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
+      */
+      store: true,
       instructions: systemPrompt,
       input: userInput
     });
@@ -213,16 +198,13 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       }
     ];
 
-    // Save conversation to database
-    const insertResult = await pool.query(
-      'INSERT INTO conversations (user_input, analysis, ai_response) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, analysis, aiResponse]
-    );
+    // Save the response id
+    id = completion.id;
+    console.log('Response id:', id)
 
+    
     res.json({
-      analysis: analysis,
-      conversationId: insertResult.rows[0].id,
-      timestamp: insertResult.rows[0].created_at
+      analysis: analysis
     });
 
   } catch (error) {
@@ -279,9 +261,13 @@ Where there are "" please return a string, and where there are [] please return 
       text: {
         verbosity: "low"
       },
+      previous_response_id: id,
       instructions: systemPrompt,
-      input: history
+      input: userInput
     });
+
+    id = completion.id;
+    console.log('Response id:', id)
 
     const aiResponse = completion.output_text;
     console.log('AI response:', aiResponse)
@@ -302,16 +288,9 @@ Where there are "" please return a string, and where there are [] please return 
       }
     ];
 
-    // Save conversation to database
-    const insertResult = await pool.query(
-      'INSERT INTO conversations (user_input, analysis, ai_response) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, analysis, aiResponse]
-    );
 
     res.json({
-      analysis: analysis,
-      conversationId: insertResult.rows[0].id,
-      timestamp: insertResult.rows[0].created_at
+      analysis: analysis
     });
 
   } catch (error) {
@@ -323,42 +302,6 @@ Where there are "" please return a string, and where there are [] please return 
   }
 });
 
-// Get conversation history
-app.get('/api/conversations', async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT * FROM conversations ORDER BY created_at DESC LIMIT 50'
-    );
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Save conflict analysis as a structured conflict entry
-app.post('/api/save-conflict', async (req, res) => {
-  const { name, parties, keyIssues, analysis, recommendations } = req.body;
-
-  try {
-    const result = await pool.query(
-      'INSERT INTO conflicts (name, parties, key_issues, analysis, recommendations) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, parties, keyIssues, analysis, recommendations]
-    );
-    res.json({ message: 'Conflict saved successfully', conflict: result.rows[0] });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get all conflicts
-app.get('/api/conflicts', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM conflicts ORDER BY created_at DESC');
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // Save share to database
 app.post('/api/share', async (req, res) => {
@@ -395,11 +338,9 @@ app.get('/api/public', async (req, res) => {
   }
 });
 
-// Serve static files from client/dist (must be after API routes)
-app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Catch-all: serve React app for any non-API routes (MUST be last)
-app.get('*', (req, res) => {
+app.get('/events', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
