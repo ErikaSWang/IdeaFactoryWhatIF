@@ -7,7 +7,13 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 
 
 export const System = ({item}) => {
-  const content = item.content;
+  let content;
+  try {
+    content = typeof item.content === 'string' ? JSON.parse(item.content) : item.content;
+  } catch (error) {
+    console.error('Error parsing content:', error);
+    content = { response: item.content }; // Fallback to display raw content
+  }
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState(null);
 
