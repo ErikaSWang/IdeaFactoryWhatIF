@@ -90,8 +90,8 @@ export const Home = () => {
       setAnalysis(result.analysis);
       setConversation(prevConversation => [
         ...prevConversation, 
-        { type: 'user', input: userInput },
-        { type: 'system', analysis: result.analysis }
+        { role: 'user', content: userInput },
+        { role: 'system', content: result.analysis }
       ])
       setResponse(true);
       setUserInput('');
@@ -136,8 +136,8 @@ export const Home = () => {
       setAnalysis(result.analysis);
       setConversation(prevConversation => [
         ...prevConversation, 
-        { type: 'user', input: userInput },
-        { type: 'system', analysis: result.analysis }
+        { role: 'user', content: userInput },
+        { role: 'system', content: result.analysis }
       ])
       setUserInput('');
 
