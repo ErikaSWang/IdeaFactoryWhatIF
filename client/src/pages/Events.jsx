@@ -140,7 +140,7 @@ export const Events = () => {
                       )}
                     </Card.Body>
                     <Card.Footer className='d-flex justify-content-end'>
-                      <Button variant='success' onClick={setShow(true)}>See Full Conversation</Button>
+                      <Button variant='success' onClick={() => setShow(true)}>See Full Conversation</Button>
                       <Modal
                         size="lg"
                         show={show}
