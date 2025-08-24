@@ -24,7 +24,7 @@ export const Events = () => {
 
   const fetchPublicShares = async () => {
     try {
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
+      const response = await fetch('/api/public');
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
@@ -76,10 +76,10 @@ export const Events = () => {
             <h3 className="text-center event-header pb-3">🌍 Community Concerns and Tool Suggestions </h3>
 
         {publicShares.length === 0 ? (
-            <>
-              <h5>No Shared Analyses Yet</h5>
-              <p>Be the first to share your conflict analysis with the world!</p>
-            </>
+            <div className='d-flex justify-content-center text-light'>
+              <h5>No Shares</h5>
+              <p>Be the first to share your concerns with the world!</p>
+            </div>
         ) : (
             <div className="d-flex flex-wrap justify-content-center">
               {publicShares.map((share, index) => (

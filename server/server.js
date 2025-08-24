@@ -300,7 +300,7 @@ app.post('/api/share', async (req, res) => {
   }
 
   const userInput = history[0].content;
-  const conversation = history;
+  const conversation = {'conversation':'test'};
   let tools = {};
 
   try {
