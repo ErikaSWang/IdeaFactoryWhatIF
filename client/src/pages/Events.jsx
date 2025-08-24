@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container'
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
-import { Loading } from '../components/Loading';
+import { Response } from '../components/Response';
 
 export const Events = () => {
   const [publicShares, setPublicShares] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [show, setShow] = useState(false);
 
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
@@ -47,14 +45,9 @@ export const Events = () => {
     } catch (err) {
       setError(err.message);
       console.error('Error fetching public shares:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
-  if (loading) {
-    return <Loading />;
-  }
 
   if (error) {
     return (
@@ -76,8 +69,8 @@ export const Events = () => {
             <h3 className="text-center event-header pb-3">🌍 Community Concerns and Tool Suggestions </h3>
 
         {publicShares.length === 0 ? (
-            <div className='d-flex justify-content-center text-light'>
-              <h5>No Shares</h5>
+            <div className='d-flex flex-column justify-content-center text-center text-light w-100'>
+              <h5 className='p-2'>No Shares</h5>
               <p>Be the first to share your concerns with the world!</p>
             </div>
         ) : (
@@ -147,10 +140,27 @@ export const Events = () => {
                       )}
                     </Card.Body>
                     <Card.Footer className='d-flex justify-content-end'>
-                      <Button variant='success' onClick='openModal'>See Full Conversation</Button>
+                      <Button variant='success' onClick={setShow(true)}>See Full Conversation</Button>
+                      <Modal
+                        size="lg"
+                        show={show}
+                        onHide={() => setShow(false)}
+                        aria-labelledby="example-modal-sizes-title-lg"
+                        className='bg-secondary'
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title id="example-modal-sizes-title-lg">
+                            Full Conversation
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Response conversation={share.conversation} />
+                        </Modal.Body>
+                      </Modal>
                     </Card.Footer>
                   </Card>
-              ))}
+                ))
+              }
             </div>
         )}
       </Container>

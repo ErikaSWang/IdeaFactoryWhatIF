@@ -83,6 +83,8 @@ app.post('/api/analyze-conflict', async (req, res) => {
     return res.status(400).json({ error: 'User input is required' });
   }
 
+  history = []
+
   // Add the user input to the history
   history.push({
     role: "user",
@@ -166,12 +168,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-      /*
+     
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-      */
+     
       store: true,
       instructions: systemPrompt,
       input: userInput
