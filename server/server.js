@@ -293,10 +293,12 @@ Where there are "" please return a string, and where there are [] please return 
 // Save share to database
 app.post('/api/share', async (req, res) => {
   console.log('Share request received');
-  console.log('Anything??');
-
   console.log('history:', history)
   
+  if (!history || history.length < 2) {
+    return res.status(400).json({ error: 'No conversation history available' });
+  }
+
   const userInput = history[0].content;
   const conversation = history;
   let tools = {};
@@ -305,12 +307,10 @@ app.post('/api/share', async (req, res) => {
     // Parse the AI response to get just the tools
     const toolsData = JSON.parse(history[1].content);
     tools = toolsData.tools || {};
-
   } catch (parseError) {
     console.log('Failed to parse tools data for sharing');
     tools = {};
   }
-
 
   try {
     const result = await pool.query(
