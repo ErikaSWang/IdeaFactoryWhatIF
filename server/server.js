@@ -168,12 +168,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-     
+
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-     
+
       store: true,
       instructions: systemPrompt,
       input: userInput
@@ -187,12 +187,13 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       analysis = JSON.parse(aiResponse);
     } catch (parseError) {
       console.log('Failed to parse JSON, using text response');
+      analysis = { error: "Failed to parse response", raw: aiResponse };
     }
 
-    // Add the response to the history
+    // Add the response to the history - store the parsed object, not the raw string
     history.push({
       role: "assistant",
-      content: aiResponse
+      content: analysis
     });
 
     // Save the response id
@@ -269,12 +270,13 @@ Where there are "" please return a string, and where there are [] please return 
       analysis = JSON.parse(aiResponse);
     } catch (parseError) {
       console.log('Failed to parse JSON, using text response');
+      analysis = { error: "Failed to parse response", raw: aiResponse };
     }
 
-    // Add the response to the history
+    // Add the response to the history - store the parsed object, not the raw string
     history.push({
       role: "assistant",
-      content: aiResponse
+      content: analysis
     });
 
 
@@ -296,7 +298,7 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   console.log('Share request received');
   console.log('history:', history)
-  
+
   if (!history) {
     return res.status(400).json({ error: 'No conversation history available' });
   }
