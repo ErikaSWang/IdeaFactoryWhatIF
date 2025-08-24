@@ -27,6 +27,7 @@ pool.query(`
   CREATE TABLE IF NOT EXISTS public (
     id SERIAL PRIMARY KEY,
     user_input TEXT NOT NULL,
+    analysis JSONB,
     tools JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )
@@ -37,8 +38,8 @@ app.use(cors({
   origin: [
     'http://localhost',
     'http://localhost:5173',
-    'http://172.31.122.226',
-    'http://172.31.122.226:5173',
+    'http://172.31.84.98',
+    'http://172.31.84.98:5173',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:5173',
     'https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000',
@@ -168,12 +169,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-      /*
+
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-      */
+
       store: true,
       instructions: systemPrompt,
       input: userInput
@@ -307,20 +308,32 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   const userInput = history[0].content;
   let tools = {};
+  let analysis = {};
   
   try {
     // Parse the AI response to get just the tools
-    const analysisData = JSON.parse(history[1].content);
-    tools = analysisData.tools || {};
+    const toolsData = JSON.parse(history[1].content);
+    tools = toolsData.tools || {};
+    
   } catch (parseError) {
-    console.log('Failed to parse analysis data for sharing');
+    console.log('Failed to parse tools data for sharing');
+    tools = {};
+  }
+
+  try {
+    // Parse the AI response
+    const analysisData = JSON.parse(history.content);
+    analysis = analysisData || {};
+
+  } catch (parseError) {
+    console.log('Failed to parse tools data for sharing');
     tools = {};
   }
 
   try {
     const result = await pool.query(
-      'INSERT INTO public (user_input, tools) VALUES ($1, $2) RETURNING *',
-      [userInput, tools]
+      'INSERT INTO public (user_input, tools) VALUES ($1, $2, $3) RETURNING *',
+      [userInput, analysis, tools]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {

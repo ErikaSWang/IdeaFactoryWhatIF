@@ -4,8 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal'
 import { Loading } from '../components/Loading';
 
 export const Events = () => {
@@ -74,7 +73,7 @@ export const Events = () => {
   return (
     <>
       <Container className="main-component py-4">
-            <h3 className="text-center event-header pb-3">🌍 Community concerns and tool suggestions </h3>
+            <h3 className="text-center event-header pb-3">🌍 Community Concerns and Tool Suggestions </h3>
 
         {publicShares.length === 0 ? (
             <>
@@ -147,6 +146,9 @@ export const Events = () => {
                         </div>
                       )}
                     </Card.Body>
+                    <Card.Footer className='d-flex justify-content-end'>
+                      <Button variant='success' onClick='openModal'>See Full Conversation</Button>
+                    </Card.Footer>
                   </Card>
               ))}
             </div>
