@@ -94,7 +94,7 @@ app.post('/api/analyze-conflict', async (req, res) => {
   try {
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
     Can you:
-    1. Look at the user input, and figure out what other parties may be involved, even if they just mention one party and a personally desired outcome? If it's a global conflict they only mention one party, you must identify the other party(s) by name (It's imperative you use the web search to find the right individuals and/or organizations involved, as well as the most up-to-date details of the conflict, and that you understand the dynamics at play. Otherwise your response will target the wrong issues.)
+    1. Look at the user input, and figure out what other parties may be involved, even if they mention one party and a personally desired outcome? If it's a global conflict they only mention one party, you must identify the other party(s) by name (It's imperative you use the web search to find the right individuals and/or organizations involved, as well as the most up-to-date details of the conflict, and that you understand the dynamics at play. Otherwise your response will target the wrong issues.)
     2. Collect the all the relevant facts of that conflict that have led up to this point (historical background (as far back as possible - but as short as possible. As well, current issues preventing peace)
     3. What are the feelings and mindset of the parties involved in the conflict?
     4. What are the most realistic trajectories for this dispute? Please give a rating for which seems most realistic if nothing changes. It's imperative you be specific to this particular situation, relying on the web search you did above to customize your assessment to THESE people in THIS situation, based on the work you did in #1. DO NOT generalize and use patterns from similar situations you have in your data set.
@@ -168,12 +168,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-     
+
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-     
+
       store: true,
       instructions: systemPrompt,
       input: userInput
@@ -296,7 +296,7 @@ Where there are "" please return a string, and where there are [] please return 
 app.post('/api/share', async (req, res) => {
   console.log('Share request received');
   console.log('history:', history)
-  
+
   if (!history) {
     return res.status(400).json({ error: 'No conversation history available' });
   }
@@ -325,14 +325,18 @@ app.post('/api/share', async (req, res) => {
   }
 });
 
-// Get all conflicts
+// Get public shares from database
 app.get('/api/public', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM public ORDER BY created_at DESC');
+  console.log('Public shares request received');
 
+  try {
+    const result = await pool.query(
+      'SELECT * FROM public ORDER BY created_at DESC'
+    );
     res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error fetching public shares:', err);
+    res.status(500).json({ error: 'Failed to fetch public shares' });
   }
 });
 
