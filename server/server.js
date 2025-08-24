@@ -300,7 +300,7 @@ app.post('/api/share', async (req, res) => {
   }
 
   const userInput = history[0].content;
-  const conversation = {'conversation':'test'};
+  const conversation = history;  // Save the entire history array
   let tools = {};
 
   try {
@@ -315,7 +315,7 @@ app.post('/api/share', async (req, res) => {
   try {
     const result = await pool.query(
       'INSERT INTO public (user_input, tools, conversation) VALUES ($1, $2, $3) RETURNING *',
-      [userInput, tools, conversation]
+      [userInput, JSON.stringify(tools), JSON.stringify(conversation)]
     );
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
