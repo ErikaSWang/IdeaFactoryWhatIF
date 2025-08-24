@@ -293,39 +293,30 @@ Where there are "" please return a string, and where there are [] please return 
 // Save share to database
 app.post('/api/share', async (req, res) => {
   console.log('Share request received');
-  console.log('Request body:', req.body);
+  console.log('Anything??');
   
-  const { conversation } = req.body;
-
-  if (!conversation || conversation.length === 0) {
-    return res.status(400).json({ error: 'Conversation data is required' });
-  }
-
-  // Extract user input from the first user message
-  const userInput = conversation.find(msg => msg.type === 'user')?.input || 'No input provided';
-  
+  const userInput = history[0].content;
+  const conversation = history;
   let tools = {};
 
   try {
-    // Find the first system response and extract tools
-    const systemResponse = conversation.find(msg => msg.type === 'system');
-    if (systemResponse && systemResponse.analysis && systemResponse.analysis.tools) {
-      tools = systemResponse.analysis.tools;
-    }
+    // Parse the AI response to get just the tools
+    const toolsData = JSON.parse(history[1].content);
+    tools = toolsData.tools || {};
+
   } catch (parseError) {
     console.log('Failed to parse tools data for sharing');
     tools = {};
   }
+
 
   try {
     const result = await pool.query(
       'INSERT INTO public (user_input, tools, conversation) VALUES ($1, $2, $3) RETURNING *',
       [userInput, tools, conversation]
     );
-    console.log('Successfully saved to database:', result.rows[0]);
     res.json({ message: 'Share saved successfully' });
   } catch (err) {
-    console.error('Database error:', err);
     res.status(500).json({ error: err.message });
   }
 });

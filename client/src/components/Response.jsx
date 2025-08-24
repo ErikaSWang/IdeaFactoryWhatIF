@@ -18,7 +18,7 @@ export const Response = ({conversation}) => {
             item.type === 'user' ?
               <User key={index} item={item} />
             :
-              <System key={index} item={item} conversation={conversation} />
+              <System key={index} item={item} />
           )}
         </Container>
       </div>
