@@ -8,7 +8,7 @@ import { Response } from '../components/Response';
 export const Events = () => {
   const [publicShares, setPublicShares] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedShare, setSelectedShare] = useState(null);
+  const [show, setShow] = useState(false);
 
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
@@ -140,30 +140,29 @@ export const Events = () => {
                       )}
                     </Card.Body>
                     <Card.Footer className='d-flex justify-content-end'>
-                      <Button variant='success' onClick={() => setSelectedShare(share)}>See Full Conversation</Button>
+                      <Button variant='success' onClick={() => setShow(true)}>See Full Conversation</Button>
+                      <Modal
+                        size="lg"
+                        show={show}
+                        onHide={() => setShow(false)}
+                        aria-labelledby="example-modal-sizes-title-lg"
+                        className='bg-secondary'
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title id="example-modal-sizes-title-lg">
+                            Full Conversation
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Response conversation={share.conversation} />
+                        </Modal.Body>
+                      </Modal>
                     </Card.Footer>
                   </Card>
                 ))
               }
             </div>
         )}
-        
-        <Modal
-          size="lg"
-          show={selectedShare !== null}
-          onHide={() => setSelectedShare(null)}
-          aria-labelledby="example-modal-sizes-title-lg"
-          className='bg-secondary'
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              Full Conversation
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selectedShare && <Response conversation={selectedShare.conversation} />}
-          </Modal.Body>
-        </Modal>
       </Container>
     </>
   );
