@@ -158,6 +158,7 @@ export const Events = () => {
                         </Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
+                        {console.log('Modal conversation data:', share.conversation)}
                         <Response conversation={share.conversation} />
                       </Modal.Body>
                     </Modal>

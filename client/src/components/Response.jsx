@@ -7,6 +7,19 @@ import { System } from './System'
 
 
 export const Response = ({conversation}) => {
+  console.log('Response component received conversation:', conversation);
+  
+  // Handle empty or undefined conversation
+  if (!conversation || conversation.length === 0) {
+    return (
+      <div className='scroll-box'>
+        <Container>
+          <p className="text-center text-muted">No conversation data available.</p>
+        </Container>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className='scroll-box'>
