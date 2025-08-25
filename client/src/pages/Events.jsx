@@ -150,7 +150,6 @@ export const Events = () => {
                       show={show}
                       onHide={() => setShow(false)}
                       aria-labelledby="example-modal-sizes-title-lg"
-                      className='bg-secondary text-light'
                     >
                       <Modal.Header closeButton>
                         <Modal.Title id="example-modal-sizes-title-lg">
