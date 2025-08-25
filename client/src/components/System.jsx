@@ -6,7 +6,7 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
 
-export const System = ({item}) => {
+export const System = ({item, popup}) => {
   let content;
   try {
     content = typeof item.content === 'string' ? JSON.parse(item.content) : item.content;
@@ -247,7 +247,13 @@ export const System = ({item}) => {
                     )}
                 </div>
                 <div className="d-flex justify-content-end w-100 pe-5 pb-3">
-                  <Button variant="success" className="d-flex justify-content-end" onClick={Share}>Share with the World</Button>
+                  {popup===true ?
+                    ''
+                  :
+                    <Button variant="success" className="d-flex justify-content-end" onClick={Share}>
+                      Share with the World
+                    </Button>
+                  }
                 </div>
             </div>
         )}

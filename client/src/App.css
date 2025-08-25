@@ -344,8 +344,8 @@ p {
 .modal-content {
   background-color: #808185 !important;
 }
-.modal-title {
-  color: #babcd8 !important;
+.modal-title h4 {
+  color: #bbbcc3 !important;
 }
 
 

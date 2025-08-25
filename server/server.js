@@ -91,6 +91,9 @@ app.post('/api/analyze-conflict', async (req, res) => {
     content: userInput
   });
 
+  // The prompt is stored in OpenAI's prompt library, but here it is for reference:
+  
+  /*
   try {
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
     Can you:
@@ -158,6 +161,8 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
 </format of response>
 `;
 
+*/
+
     const client = new OpenAI()
 
     const completion = await client.responses.create({
@@ -168,15 +173,20 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       text: {
         verbosity: "low"
       },
-     
+      /*
       tools: [{
           type: "web_search_preview",
           search_context_size: "low",
       }],
-     
+      */
       store: true,
-      instructions: systemPrompt,
-      input: userInput
+      prompt: {
+        "id": "pmpt_68abc13a1e588193910957a84efd452d0fafbb021b68bcda",
+        "version": "2",
+        "variables": {
+          "user_input": userInput
+        }
+      }
     });
 
     const aiResponse = completion.output_text;

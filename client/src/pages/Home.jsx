@@ -19,6 +19,7 @@ export const Home = () => {
   const [error, setError] = useState(null);
   const [textareaHeight, setTextareaHeight] = useState(0);
   const [outputHeight, setOutputHeight] = useState('50vh');
+  const [popup, setPopup] = useState(false);
 
 
   useEffect(() => {
@@ -169,7 +170,7 @@ export const Home = () => {
               loading ?
                 <Loading />
               :
-                <Response conversation={conversation} />
+                <Response conversation={conversation} popup={popup} />
           }
         </Container>
 

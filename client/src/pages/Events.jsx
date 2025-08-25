@@ -9,6 +9,7 @@ export const Events = () => {
   const [publicShares, setPublicShares] = useState([]);
   const [error, setError] = useState(null);
   const [show, setShow] = useState(false);
+  const [popup, setPopup] = useState(true);
 
   const handleCreateTool = (toolName) => {
     console.log(`Creating tool: ${toolName}`);
@@ -158,7 +159,7 @@ export const Events = () => {
                       </Modal.Header>
                       <Modal.Body>
                         {console.log('Modal conversation data:', share.conversation)}
-                        <Response conversation={share.conversation} />
+                        <Response conversation={share.conversation} popup={popup} />
                       </Modal.Body>
                     </Modal>
 

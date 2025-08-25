@@ -6,7 +6,7 @@ import { User } from './User'
 import { System } from './System'
 
 
-export const Response = ({conversation}) => {
+export const Response = ({conversation, popup}) => {
   console.log('Response component received conversation:', conversation);
   
   // Handle empty or undefined conversation
@@ -28,7 +28,7 @@ export const Response = ({conversation}) => {
             item.role === 'user' ?
               <User key={index} item={item} />
             :
-              <System key={index} item={item} />
+              <System key={index} item={item} popup={popup} />
           )}
         </Container>
       </div>
