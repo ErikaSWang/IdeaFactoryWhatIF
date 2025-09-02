@@ -98,13 +98,7 @@ export const Events = () => {
                                 <div className="d-flex justify-content-between align-items-center">
                                   <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
                                   {typeof tool === 'object' && tool.url && (
-                                    <a 
-                                      href={tool.url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer" 
-                                      className="btn btn-xs btn-outline-primary"
-                                      style={{ fontSize: '0.7rem', padding: '0.1rem 0.3rem' }}
-                                    >
+                                    <a href={tool.url} target="_blank" rel="noopener noreferrer" className="btn btn-xs btn-outline-primary tools-btn">
                                       Visit
                                     </a>
                                   )}
@@ -125,11 +119,7 @@ export const Events = () => {
                                   <span>• {typeof tool === 'string' ? tool : tool.tool}</span>
                                   <div>
                                     {typeof tool === 'object' && tool.buildable === 'yes' && (
-                                      <Button
-                                        variant="primary" 
-                                        size="sm"
-                                        onClick={() => handleCreateTool(tool.tool)}
-                                      >
+                                      <Button variant="primary" size="sm" onClick={() => handleCreateTool(tool.tool)}>
                                         Create
                                       </Button>
                                     )}

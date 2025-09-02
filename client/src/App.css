@@ -283,6 +283,10 @@ p {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
+.tools-btn {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.3rem;
+}
 
 .existing-tool {
   margin-bottom: 0.5rem;

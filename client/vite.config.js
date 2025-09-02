@@ -8,6 +8,14 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     hmr: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false
+      }
+    },
     allowedHosts: ['e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev', 'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000', 'https://IdeaFactoryWhatIF.replit.app', 'https://IdeaFactoryWhatIF.replit.app:3000']
   }
 })
+
