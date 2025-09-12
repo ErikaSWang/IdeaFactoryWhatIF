@@ -9,6 +9,7 @@ export const Events = () => {
   const [publicShares, setPublicShares] = useState([]);
   const [error, setError] = useState(null);
   const [show, setShow] = useState(false);
+  const [selectedShare, setSelectedShare] = useState(null);
   const [popup, setPopup] = useState(true);
 
   const handleCreateTool = (toolName) => {
@@ -132,14 +133,21 @@ export const Events = () => {
                       )}
                     </Card.Body>
                     <Card.Footer className='d-flex justify-content-end'>
-                      <Button variant='success' onClick={() => setShow(true)}>See Full Conversation</Button>
+                      <Button variant='success' onClick={() => {
+                        setSelectedShare(share);
+                        setShow(true);
+                      }}>See Full Conversation</Button>
                     </Card.Footer>
                   </Card>
 
-                   <Modal
+                   {selectedShare && (
+                    <Modal
                       size="lg"
                       show={show}
-                      onHide={() => setShow(false)}
+                      onHide={() => {
+                        setShow(false);
+                        setSelectedShare(null);
+                      }}
                       aria-labelledby="example-modal-sizes-title-lg"
                     >
                       <Modal.Header closeButton>
@@ -148,10 +156,11 @@ export const Events = () => {
                         </Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        {console.log('Modal conversation data:', share.conversation)}
-                        <Response conversation={share.conversation} popup={popup} />
+                        {console.log('Modal conversation data:', selectedShare.conversation)}
+                        <Response conversation={selectedShare.conversation} popup={popup} />
                       </Modal.Body>
                     </Modal>
+                  )}
 
                   </>
                 ))
