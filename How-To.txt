@@ -1,3 +1,6 @@
+WHEN UPDATING LLM MODEL, MAKE SURE TO npm update
+(or check the package for openai, etc)
+
 MAIN 
 1. Open a node.js repl
 2. Add 2 folders:
