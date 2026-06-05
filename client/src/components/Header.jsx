@@ -20,7 +20,7 @@ export const Header = () => {
     <header>
       <Navbar className='d-flex justify-content-between align-items-end w-100 px-2'>
         <Navbar.Brand href="./" aria-label="Link to the home page">
-          <img src='./logo.png' />
+          <img src='./logo.png' alt="Idea Factory logo" />
         </Navbar.Brand>
         <Nav className='pb-3 pe-1'>
           { isHome ?
