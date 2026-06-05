@@ -15,7 +15,14 @@ export default defineConfig({
         secure: false
       }
     },
-    allowedHosts: true
+    allowedHosts: [
+      'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev',
+      'e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev:3000',
+      'IdeaFactoryWhatIF.replit.app',
+      'IdeaFactoryWhatIF.replit.app:3000',
+      'ideas.erikawang.com',
+      'ideas.erikawang.com:3000'
+    ]
   }
 })
 
