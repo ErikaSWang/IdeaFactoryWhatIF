@@ -19,16 +19,16 @@ export const Header = () => {
   return (
     <header>
       <Navbar className='d-flex justify-content-between align-items-end w-100 px-2'>
-        <Navbar.Brand href="./" className=''>
+        <Navbar.Brand href="./" aria-label="Link to the home page">
           <img src='./logo.png' />
         </Navbar.Brand>
         <Nav className='pb-3 pe-1'>
           { isHome ?
-            <Nav.Link href="/events">
+            <Nav.Link href="/events" aria-label="Link to the collection of ideas page">
               <FcGlobe className='icon'/>
             </Nav.Link>
           : 
-            <Nav.Link href="/">
+            <Nav.Link href="/" aria-label="Link to the home page">
               <BiSolidHomeHeart className='icon home'/>
             </Nav.Link>
           }

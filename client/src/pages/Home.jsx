@@ -73,13 +73,6 @@ export const Home = () => {
         body: JSON.stringify({ userInput }),
       });
 
-      /*
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/analyze-conflict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userInput }),
-      });
-      */
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
@@ -119,14 +112,6 @@ export const Home = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userInput }),
       });
-
-      /*
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/follow-up', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userInput }),
-      });
-      */
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);

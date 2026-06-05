@@ -37,3 +37,6 @@ args = "cd client && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd server && node server.js"
+
+[agent]
+expertMode = true

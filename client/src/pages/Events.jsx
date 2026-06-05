@@ -30,13 +30,6 @@ export const Events = () => {
         throw new Error(`Server error: ${response.status}`);
       }
 
-      /*
-      const response = await fetch('https://e02b4272-d840-49fb-90b3-d95e11e4435f-00-2bsk8jsuxwv2k.picard.replit.dev/api/public');
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-      */
 
       const data = await response.json();
       console.log('Fetched public shares:', data);
@@ -51,24 +44,10 @@ export const Events = () => {
   };
 
 
-  if (error) {
-    return (
-      <Container className="d-flex justify-content-center align-items-center h-50">
-        <Card className="text-center">
-          <Card.Body>
-            <Card.Title>Error Loading Shares</Card.Title>
-            <Card.Text>Unable to load shared analyses: {error}</Card.Text>
-            <Button variant="primary" onClick={fetchPublicShares}>Try Again</Button>
-          </Card.Body>
-        </Card>
-      </Container>
-    );
-  }
-
   return (
     <>
       <Container className="main-component py-4">
-            <h3 className="text-center event-header pb-3">🌍 Community Concerns and Tool Suggestions </h3>
+            <h3 className="text-center event-header pb-3">🌍 What Others are Thinking About</h3>
 
         {publicShares.length === 0 ? (
             <div className='d-flex flex-column justify-content-center text-center text-light w-100'>
