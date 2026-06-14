@@ -349,7 +349,7 @@ app.get('/api/public', async (req, res) => {
 
 
 // Catch-all: serve React app for any non-API routes (MUST be last)
-app.get('/events', (req, res) => {
+app.get('/ideas', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
