@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container'
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button';
 import { Query } from "../components/Query";
 import { Fresh } from "../components/Fresh";
 import { Loading } from "../components/Loading";
