@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button';
 
 
 export const User = ({item}) => {

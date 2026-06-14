@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
 import { Response } from '../components/Response';
 
-export const Events = () => {
+export const Ideas = () => {
   const [publicShares, setPublicShares] = useState([]);
   const [error, setError] = useState(null);
   const [show, setShow] = useState(false);

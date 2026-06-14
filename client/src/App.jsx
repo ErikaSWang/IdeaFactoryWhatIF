@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import { Root } from './components/Root';
 import { Home } from './pages/Home';
-import { Events } from './pages/Events';
+import { Ideas } from './pages/Ideas';
 import './App.css'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={ <Root /> }>
     <Route index element={ <Home /> } />
-    <Route path="/events" element={ <Events /> } />
+    <Route path="/ideas" element={ <Ideas /> } />
   </Route>
 ));
 
