@@ -167,7 +167,7 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
     const client = new OpenAI()
 
     const completion = await client.responses.create({
-      model: "gpt-6-luna",
+      model: "gpt-5.4-nano",
       reasoning: {
         effort: "medium"
       },
@@ -259,7 +259,7 @@ Where there are "" please return a string, and where there are [] please return 
     const client = new OpenAI()
 
     const completion = await client.responses.create({
-      model: "gpt-5-nano",
+      model: "gpt-5.4-nano",
       reasoning: {
         effort: "low"
       },
