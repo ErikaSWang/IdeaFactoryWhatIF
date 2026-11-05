@@ -94,8 +94,9 @@ app.post('/api/analyze-conflict', async (req, res) => {
   try {
     
   // The prompt is stored in OpenAI's prompt library, but here it is for reference:
+  // EDIT: Stored prompts are being phased out, so it is coming back in ...
   
-  /*
+ 
     const systemPrompt = `The user is ALWAYS an individual, not a politician. So always keep that in mind and try to find ways to empower, uplift, and encourage them with ideas they for ways they may be able to take action, whenever possible.
     Can you:
     1. Look at the user input, and figure out what other parties may be involved, even if they just mention one party and a personally desired outcome? If it's a global conflict they only mention one party, you must identify the other party(s) by name (It's imperative you use the web search to find the right individuals and/or organizations involved, as well as the most up-to-date details of the conflict, and that you understand the dynamics at play. Otherwise your response will target the wrong issues.)
@@ -162,12 +163,12 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
 </format of response>
 `;
 
-*/
-
-    const client = new OpenAI()
+    const client = new OpenAI({
+      apiKey: process.env['OPENAI_API_KEY']
+    });
 
     const completion = await client.responses.create({
-      model: "gpt-5.4-nano",
+      model: "gpt-6-luna",
       reasoning: {
         effort: "medium"
       },
@@ -181,13 +182,7 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       }],
       */
       store: true,
-      prompt: {
-        "id": "pmpt_68abc13a1e588193910957a84efd452d0fafbb021b68bcda",
-        "version": "2",
-        "variables": {
-          "user_input": userInput
-        }
-      }
+      prompt: systemPrompt
     });
 
     const aiResponse = completion.output_text;
