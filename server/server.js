@@ -182,7 +182,8 @@ For any percentages, return numbers between 0 and 1 (e.g., 0.72), not strings li
       }],
       */
       store: true,
-      prompt: systemPrompt
+      instructions: systemPrompt,
+      input: userInput
     });
 
     const aiResponse = completion.output_text;
